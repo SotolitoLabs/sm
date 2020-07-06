@@ -155,3 +155,7 @@ tags
 #SQLite
 
 db.sqlite3
+
+# Development settings
+
+settings.py.dev
