@@ -150,3 +150,8 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
+
+
+#SQLite
+
+db.sqlite3
