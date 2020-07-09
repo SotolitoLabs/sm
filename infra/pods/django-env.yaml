@@ -1,3 +1,18 @@
+#
+#
+# Self deploy development pod for podman
+# Don't forget to change the path in the volumes section
+# (c) SotolitoLabs
+#
+# Iván Chavero <ichavero@chavero.com.mx>
+#
+# Usage:
+#      podman play kube django-env.yaml
+#
+#      And be happy :D
+#
+
+
 apiVersion: v1
 kind: Pod
 metadata:
