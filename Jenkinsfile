@@ -1,4 +1,4 @@
-// The super duper SotolitoLabs Pipeline with beer
+// The super duper SotolitoLabs Pipeline with weed and beer 
 node {
     // This displays colors using the 'xterm' ansi color map.
     ansiColor('xterm') {
