@@ -1,4 +1,4 @@
-// This shows a simple build wrapper example, using the AnsiColor plugin.
+// The super duper SotolitoLabs Pipeline
 node {
     // This displays colors using the 'xterm' ansi color map.
     ansiColor('xterm') {
