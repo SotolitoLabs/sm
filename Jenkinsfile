@@ -1,4 +1,4 @@
-// The super duper SotolitoLabs Pipeline
+// The super duper SotolitoLabs Pipeline with ketchup
 node {
     // This displays colors using the 'xterm' ansi color map.
     ansiColor('xterm') {
