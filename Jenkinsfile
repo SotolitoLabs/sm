@@ -8,9 +8,9 @@ node {
 
 
     stage('Sync Development') {
-        when {
-            branch 'master'
-        }
+       // when {
+       //     branch 'master'
+       // }
 
         steps {
             sh ('''
