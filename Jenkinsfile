@@ -6,21 +6,12 @@ node {
 //        stage "\u001B[31mI'm Red\u001B[0m Now not"
 //    }
 
-
     stage('Sync Development') {
-       // when {
-       //     branch 'master'
-       // }
-
-        steps {
-            sh ('''
-                cd /home/ichavero/sotolitoLabs/sm/
-                git pull
-            ''')
-        }
+        sh ('''
+            cd /home/ichavero/sotolitoLabs/sm/
+            git pull
+        ''')
     }
-
-
 }
 
 
