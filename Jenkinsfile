@@ -8,7 +8,7 @@ node {
 
     stage('Sync Development') {
         sh ('''
-            cd /home/ichavero/sotolitoLabs/sm/
+            cd /var/sm
             git pull
         ''')
     }
