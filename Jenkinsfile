@@ -6,7 +6,7 @@ node {
 //        stage "\u001B[31mI'm Red\u001B[0m Now not"
 //    }
 
-    stage('Sync Development') {
+    stage('Sync Development Environment') {
         sh ('''
             cd /var/sm
             git pull
