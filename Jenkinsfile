@@ -1,4 +1,4 @@
-// The super duper SotolitoLabs Pipeline with weed and beer 
+// The super duper SotolitoLabs Pipeline with whores and menudo
 node {
     // This displays colors using the 'xterm' ansi color map.
 //    ansiColor('xterm') {
