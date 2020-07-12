@@ -38,14 +38,14 @@
               </div>
               <!--Body-->
               <div class="modal-body">
-                <form class="form-inline">
+                <p>Seleccione archivo con preguntas (únicamente archivos .CSV):</p>
+                <form class="form-inline" action="upload.php" method="post" enctype="multipart/form-data">
                     <div class="md-form my-0">
-                      <input class="form-control mr-sm-2" type="text" placeholder="Archivo CSV" aria-label="Cargar archivo">
+                      <input class="form-control mr-sm-2" type="file" name="fileToUpload" id="fileToUpload">
                     </div>
-                    <button class="btn btn-indigo" type="submit">Seleccionar archivo</button>
+                    <button class="btn btn-indigo" type="submit" value="Cargar archivo" name="Cargar archivo">Cargar preguntas</button>
                 </form>
               </div>
-              <!--Footer-->
               <div class="modal-footer flex-center">
                   <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">Cerrar</a>
               </div>
@@ -66,14 +66,14 @@
                 </div>
                 <!--Body-->
                 <div class="modal-body">
-                  <form class="form-inline">
+                  <p>Seleccione archivo con preguntas (únicamente archivos .CSV):</p>
+                  <form class="form-inline" action="upload.php" method="post" enctype="multipart/form-data">
                       <div class="md-form my-0">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Archivo CSV" aria-label="Cargar archivo">
+                        <input class="form-control mr-sm-2" type="file" name="fileToUpload" id="fileToUpload">
                       </div>
-                      <button class="btn btn-indigo" type="submit">Seleccionar archivo</button>
+                      <button class="btn btn-indigo" type="submit" value="Cargar archivo" name="Cargar archivo">Cargar preguntas</button>
                   </form>
                 </div>
-                <!--Footer-->
                 <div class="modal-footer flex-center">
                     <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">Cerrar</a>
                 </div>
@@ -94,14 +94,14 @@
             </div>
             <!--Body-->
             <div class="modal-body">
-              <form class="form-inline">
+              <p>Seleccione archivo con preguntas (únicamente archivos .CSV):</p>
+              <form class="form-inline" action="upload.php" method="post" enctype="multipart/form-data">
                   <div class="md-form my-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Archivo CSV" aria-label="Cargar archivo">
+                    <input class="form-control mr-sm-2" type="file" name="fileToUpload" id="fileToUpload">
                   </div>
-                  <button class="btn btn-indigo" type="submit">Seleccionar archivo</button>
+                  <button class="btn btn-indigo" type="submit" value="Cargar archivo" name="Cargar archivo">Cargar preguntas</button>
               </form>
             </div>
-            <!--Footer-->
             <div class="modal-footer flex-center">
                 <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">Cerrar</a>
             </div>
@@ -122,14 +122,14 @@
             </div>
             <!--Body-->
             <div class="modal-body">
-              <form class="form-inline">
+              <p>Seleccione archivo con preguntas (únicamente archivos .CSV):</p>
+              <form class="form-inline" action="upload.php" method="post" enctype="multipart/form-data">
                   <div class="md-form my-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Archivo CSV" aria-label="Cargar archivo">
+                    <input class="form-control mr-sm-2" type="file" name="fileToUpload" id="fileToUpload">
                   </div>
-                  <button class="btn btn-indigo" type="submit">Seleccionar archivo</button>
+                  <button class="btn btn-indigo" type="submit" value="Cargar archivo" name="Cargar archivo">Cargar preguntas</button>
               </form>
             </div>
-            <!--Footer-->
             <div class="modal-footer flex-center">
                 <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">Cerrar</a>
             </div>
@@ -146,15 +146,35 @@
 
 <!--Main Navigation-->
 <header>
-  <p>Header barra superior con logo, avatar de usuario y logout</p>
-  <ul class="navbar-nav ml-auto nav-flex-icons">
-    <li class="nav-item avatar">
-      <a class="nav-link p-0" href="#">
-        <img src="img/avatar-placeholder.jpg" class="rounded-circle z-depth-0"
-          alt="Avatar de usuario" height="35">
-      </a>
-    </li>
-  </ul>
+
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark primary-color">
+
+  <!-- Navbar brand -->
+  <a class="navbar-brand" href="#">Logo home</a>
+
+  <!-- Collapse button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Collapsible content -->
+  <div class="collapse navbar-collapse" id="basicExampleNav">
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item avatar">
+          <a class="nav-link p-0" href="#">
+            <img src="img/avatar-placeholder.jpg" class="rounded-circle z-depth-0"
+              alt="Avatar de usuario" height="35">
+          </a>
+        </li>
+      </ul>
+  </div>
+  <!-- Collapsible content -->
+
+</nav>
+<!--/.Navbar-->
+
 </header>
 <!--Main Navigation-->
 <p>Columna 1 de 2 lateral con acceso a la funcionalidad esencial del MVP:</p>
@@ -164,7 +184,7 @@
 <!--Main layout-->
 <main>
   <h1>Cargar tests</h1>
-  <p>Columna 2 de 2 con módulo para cada test (batería de preguntas).</p>
+  <p>Columna 2 x 2 con módulo para cargar archivo con preguntas de cada test.</p>
 
           <!--Card-->
           <div class="card">
