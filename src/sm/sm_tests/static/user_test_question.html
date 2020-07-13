@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Salud Mental - Home</title>
+  <title>Salud Mental - Responder test</title>
   <!-- MDB icon -->
   <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon">
   <!-- Font Awesome -->
@@ -20,13 +20,86 @@
 </head>
 <body>
 
-  <!-- Start your project here-->  
-  <div style="height: 100vh">
-    <div class="flex-center flex-column">
-    <h1>Salud Mental</h1>
-    <a href="login.html">Ingresar</a>
+<!-- Start your project here--> 
+
+<!--Main Navigation-->
+<header>
+
+  <!--Navbar-->
+  <nav class="navbar navbar-expand-lg navbar-dark primary-color">
+  
+    <!-- Navbar brand -->
+    <a class="navbar-brand" href="#">Logo home</a>
+  
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="basicExampleNav">
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+          <li class="nav-item avatar">
+            <a class="nav-link p-0" href="#">
+              <img src="img/avatar-placeholder.jpg" class="rounded-circle z-depth-0"
+                alt="Avatar de usuario" height="35">
+            </a>
+          </li>
+        </ul>
     </div>
-  </div>
+    <!-- Collapsible content -->
+  
+  </nav>
+  <!--/.Navbar-->
+  
+  </header>
+  <!--Main Navigation-->
+<p>Columna 1 de 2 (side bar) ¿la necesitamos para este user?</p>
+<a href="#">Opción menú 1</a>
+<!--Main layout-->
+<main>
+  <h1>Responde test (este template es mobile first)</h1>
+  <p>Columna 2 de 2 (main content) para mostrar cada pregunta del test.</p>
+
+  <h4>1. ¿Cuál de las siguientes cosas no te comerías?</h4>
+
+  <form>
+  <ul>
+    <li>
+      <input type="radio" id="f-option" name="selector">
+      <label for="f-option">Pizza</label>
+      
+      <div class="check"></div>
+    </li>
+    
+    <li>
+      <input type="radio" id="s-option" name="selector">
+      <label for="s-option">Tocino</label>
+      
+      <div class="check"><div class="inside"></div></div>
+    </li>
+    
+    <li>
+      <input type="radio" id="t-option" name="selector">
+      <label for="t-option">Gato</label>
+      
+      <div class="check"><div class="inside"></div></div>
+    </li>
+  </ul>
+
+  <button type="button" class="btn btn-indigo" data-toggle="modal">
+    Anterior
+  </button>
+
+  <button type="button" class="btn btn-indigo" data-toggle="modal">
+    Siguiente
+  </button>
+</form>
+
+</main>
+
+<!--Main layout-->
 
 <!-- Footer -->
 <footer class="page-footer font-small blue pt-4 mt-4">
@@ -74,7 +147,6 @@ Links etc 2
 
 </footer>
 <!-- Footer -->
-
   <!-- End your project here-->
 
   <!-- jQuery -->

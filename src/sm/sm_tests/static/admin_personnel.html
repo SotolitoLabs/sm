@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Salud Mental - Gestionar personal</title>
+  <!-- MDB icon -->
+  <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" href="css/mdb.min.css">
+  <!-- Your custom styles (optional) -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Start your project here--> 
+
+<!-- Modals -->
+
+<!--Section: Modals-->
+<section>
+
+  <!--Modal: modalUploadEmployes-->
+  <div class="modal fade" id="modalUploadEmployes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+          <!--Content-->
+          <div class="modal-content text-center">
+              <!--Header-->
+              <div class="modal-header d-flex justify-content-center">
+                  <p class="heading">Modal para cargar archivo CSV con registros de empleados</p>
+              </div>
+              <!--Body-->
+              <div class="modal-body">
+                <p>Seleccione archivo con lista de empleados (únicamente archivos .CSV):</p>
+                <form class="form-inline" action="upload.php" method="post" enctype="multipart/form-data">
+                    <div class="md-form my-0">
+                      <input class="form-control mr-sm-2" type="file" name="fileToUpload" id="fileToUpload">
+                    </div>
+                    <button class="btn btn-indigo" type="submit" value="Cargar archivo" name="Cargar archivo">Cargar empleados</button>
+                </form>
+              </div>
+              <div class="modal-footer flex-center">
+                  <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">Cerrar</a>
+              </div>
+          </div>
+          <!--/.Content-->
+      </div>
+  </div>
+  <!--Modal: modalVisualization1-->
+</section>
+<!--Section: Modals-->
+
+<!-- Terminan modals-->
+<!--Main Navigation-->
+<header>
+
+  <!--Navbar-->
+  <nav class="navbar navbar-expand-lg navbar-dark primary-color">
+  
+    <!-- Navbar brand -->
+    <a class="navbar-brand" href="#">Logo home</a>
+  
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="basicExampleNav">
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+          <li class="nav-item avatar">
+            <a class="nav-link p-0" href="#">
+              <img src="img/avatar-placeholder.jpg" class="rounded-circle z-depth-0"
+                alt="Avatar de usuario" height="35">
+            </a>
+          </li>
+        </ul>
+    </div>
+    <!-- Collapsible content -->
+  
+  </nav>
+  <!--/.Navbar-->
+  
+  </header>
+  <!--Main Navigation-->
+<p>Columna 1 de 2 lateral con acceso a la funcionalidad esencial del MVP:</p>
+  <a href="admin.html">Opción menú 1</a>
+<!--Main layout-->
+<main>
+  <h1>Gestionar personal</h1>
+  <p>Columna 2 de 2 con tabla lista empleados.</p>
+
+  <button type="button" class="btn btn-indigo" data-toggle="modal" data-target="#modalUploadEmployes">
+    Agregar nuevos empleados
+  </button>
+
+  <form class="form-inline">
+    <div class="md-form my-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Buscar empleado" aria-label="Buscar empleado">
+    </div>
+    <button class="btn btn-indigo" type="submit">Buscar empleado</button>
+  </form>
+          <!--Card-->
+          <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+              <!--Title-->
+              <h4 class="card-title">Lista</h4>
+              <!--Text-->
+              <p class="card-text">¿Cuáles campos?</p>
+              <p class="card-text">Clave Nombres Apellidos Área Ciudad Sucursal Estatus Habilitar / Deshabilitar tests Editar.</p>
+            </div>
+          </div>
+          <!--/.Card-->
+<!--Pagination -->
+<nav class="mt-4">
+    <ul class="pagination pagination-circle pg-blue mb-0">
+        <!--First-->
+        <li class="page-item disabled">
+            <a class="page-link">Primera</a>
+        </li>
+
+        <!--Arrow left-->
+        <li class="page-item disabled">
+            <a class="page-link" aria-label="Anterior">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Anterior</span>
+            </a>
+        </li>
+        <!--Numbers-->
+        <li class="page-item active">
+            <a class="page-link">1</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link">2</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link">3</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link">4</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link">5</a>
+        </li>
+
+        <!--Arrow right-->
+        <li class="page-item">
+            <a class="page-link" aria-label="Siguiente">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Siguiente</span>
+            </a>
+        </li>
+
+        <!--First-->
+        <li class="page-item">
+            <a class="page-link">Última</a>
+        </li>
+
+    </ul>
+</nav>
+<!--/Pagination -->
+</main>
+
+<!--Main layout-->
+
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4 mt-4">
+
+  <!-- Footer Links -->
+  <div class="container-fluid text-center text-md-left">
+
+    <!-- Grid row -->
+    <div class="row">
+
+      <!-- Grid column -->
+      <div class="col-md-6 mt-md-0 mt-3">
+
+        <!-- Content -->
+        <h5 class="text-uppercase">Contenido del Footer</h5>
+        <p>Cualquier cosa que se necesite aqui.</p>
+
+      </div>
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none pb-3">
+
+      <!-- Grid column -->
+      <div class="col-md-3 mb-md-0 mb-3">
+        Links etc 1
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-3 mb-md-0 mb-3">
+Links etc 2
+        </div>
+        <!-- Grid column -->
+
+    </div>
+    <!-- Grid row -->
+
+  </div>
+  <!-- Footer Links -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2020 Copyright: SaludMental
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+  <!-- End your project here-->
+
+  <!-- jQuery -->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="js/mdb.min.js"></script>
+  <!-- Your custom scripts (optional) -->
+  <script type="text/javascript"></script>
+
+</body>
+</html>
