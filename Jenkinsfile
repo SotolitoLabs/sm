@@ -1,7 +1,7 @@
 properties([pipelineTriggers([githubPush()])])
 
 node {
-   git url: 'https://github.com/SotolitoLab/sm.git', branch: 'master'
+   git url: 'https://github.com/SotolitoLabs/sm.git', branch: 'master'
 
     // This displays colors using the 'xterm' ansi color map.
 //    ansiColor('xterm') {
