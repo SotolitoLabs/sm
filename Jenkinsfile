@@ -9,8 +9,10 @@ node {
 
     stage('Sync Development Environment') {
         sh ('''
-            cd /var/sm
+            cd /var/sm/sm
+            cp settings.py.orig settings.py
             git pull
+            cp settings.py.dev settings.py
         ''')
     }
 }
