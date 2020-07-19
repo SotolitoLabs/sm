@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (MentalTest, MentalTestField, MentalTestFieldType, 
-    MentalTestResult)
+                     MentalTestResult)
 
 admin.site.register(MentalTest)
 admin.site.register(MentalTestField)
