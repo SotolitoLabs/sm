@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from .models import (MentalTest, MentalTestField, MentalTestFieldType,
-    MentalTestResult)
+                     MentalTestResult)
 from rest_framework import serializers
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
