@@ -158,5 +158,5 @@ db.sqlite3
 
 # Development settings
 
-settings.py.dev
-settings.py
+src/sm/sm/settings.py.dev
+src/sm/sm/settings.py
