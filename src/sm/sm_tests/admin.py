@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import (MentalTest, MentalTestField, MentalTestFieldType, 
+    MentalTestResult)
 
-# Register your models here.
+admin.site.register(MentalTest)
+admin.site.register(MentalTestField)
+admin.site.register(MentalTestFieldType)
+admin.site.register(MentalTestResult)
