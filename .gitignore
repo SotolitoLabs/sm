@@ -159,3 +159,4 @@ db.sqlite3
 # Development settings
 
 settings.py.dev
+settings.py
