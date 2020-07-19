@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from rest_framework import viewsets
 from .models import (MentalTest, MentalTestField, MentalTestFieldType,
                      MentalTestResult)
-from rest_framework import viewsets
-from .serializers import  (UserSerializer, MentalTestSerializer,
-                           MentalTestFieldSerializer, MentalTestFieldTypeSerializer,
-                           MentalTestResultSerializer)
+from .serializers import (UserSerializer, MentalTestSerializer,
+                          MentalTestFieldSerializer, MentalTestFieldTypeSerializer,
+                          MentalTestResultSerializer)
 
 class UserViewSet(viewsets.ModelViewSet):
     """
