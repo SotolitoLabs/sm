@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
+from .permissions import IsOwnerOrReadOnly
 from .models import (MentalTest, MentalTestField, MentalTestFieldType,
                      MentalTestResult)
 from .serializers import (UserSerializer, MentalTestSerializer,
@@ -13,6 +14,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class MentalTestViewSet(viewsets.ModelViewSet):
     """
@@ -20,6 +22,7 @@ class MentalTestViewSet(viewsets.ModelViewSet):
     """
     queryset = MentalTest.objects.all().order_by('-id')
     serializer_class = MentalTestSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -30,6 +33,7 @@ class MentalTestFieldViewSet(viewsets.ModelViewSet):
     """
     queryset = MentalTestField.objects.all().order_by('-id')
     serializer_class = MentalTestFieldSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class MentalTestFieldTypeViewSet(viewsets.ModelViewSet):
     """
@@ -37,6 +41,7 @@ class MentalTestFieldTypeViewSet(viewsets.ModelViewSet):
     """
     queryset = MentalTestFieldType.objects.all().order_by('-id')
     serializer_class = MentalTestFieldTypeSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class MentalTestResultViewSet(viewsets.ModelViewSet):
     """
@@ -44,6 +49,7 @@ class MentalTestResultViewSet(viewsets.ModelViewSet):
     """
     queryset = MentalTestResult.objects.all().order_by('-id')
     serializer_class = MentalTestResultSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
