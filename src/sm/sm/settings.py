@@ -16,7 +16,8 @@ import os
 # to settings.py in git, we created a local_settings.py file to store the
 # particular settings for running this application either in the development
 # or production environments.
-# The local_settings.py file should exist and should have the following variables:
+# The local_settings.py file should exist in the same directory as settings.py
+# and should have the following variables:
 # LOCAL_SECRET_KEY 
 # LOCAL_ALLOWED_HOSTS
 # LOCAL_STAGE_DATABASE_NAME
