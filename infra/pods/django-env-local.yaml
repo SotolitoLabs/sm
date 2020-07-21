@@ -40,7 +40,6 @@ spec:
     command: ["/code/run_uwsgi.sh"]
     ports:
     - containerPort: 8000
-      hostPort: 8000
     volumeMounts:
     - name: code
       mountPath: /code
