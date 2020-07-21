@@ -18,7 +18,8 @@ import os
 # or production environments.
 # The local_settings.py file should exist in the same directory as settings.py
 # and should have the following variables:
-# LOCAL_SECRET_KEY 
+# LOCAL_SECRET_KEY
+# LOCAL_DEBUG 
 # LOCAL_ALLOWED_HOSTS
 # LOCAL_STAGE_DATABASE_NAME
 # LOCAL_STAGE_DATABASE_USER
@@ -32,7 +33,7 @@ import os
 # Import local_settings.py, this file should not be added to git
 # since it should only contain settings for the current environment
 
-from .local_settings import (LOCAL_SECRET_KEY, LOCAL_ALLOWED_HOSTS,
+from .local_settings import (LOCAL_SECRET_KEY, LOCAL_DEBUG, LOCAL_ALLOWED_HOSTS,
                              LOCAL_STAGE_DATABASE_NAME, LOCAL_STAGE_DATABASE_USER,
                              LOCAL_STAGE_DATABASE_PASSWORD, LOCAL_PRODUCTION_DATABASE_NAME,
                              LOCAL_PRODUCTION_DATABASE_USER, LOCAL_PRODUCTION_DATABASE_PASSWORD)
@@ -49,7 +50,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = LOCAL_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = LOCAL_DEBUG
 
 #ALLOWED_HOSTS = []
 ALLOWED_HOSTS = LOCAL_ALLOWED_HOSTS
