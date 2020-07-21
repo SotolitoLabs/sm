@@ -11,6 +11,8 @@ node {
         sh ('''
             cd /var/sm/
             git pull
+            echo "Reload application"
+            touch src/reload.me
         ''')
     }
 }
