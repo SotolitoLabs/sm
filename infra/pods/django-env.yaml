@@ -45,7 +45,7 @@ spec:
       mountPath: /var/lib/postgresql/data
   - name: django-rest
     image: quay.io/sotolitolabs/django-rest:latest
-    command: ["/code/sm/manage.py", "runserver"]
+    command: ["/code/run_uwsgi.sh"]
     ports:
     - containerPort: 8000
       hostPort: 8000
@@ -55,15 +55,15 @@ spec:
   volumes:
   - name: nginx
     hostPath:
-      path: /home/sotolito/sm/django-nginx/html
+      path: /home/sotolitolabs/sm/src/sm/static
       type: Directory
   - name: postgres
     hostPath:
-      path: /home/sotolito/sm/django-postgres/
+      path: /home/sotolito/sm/postgres/
       type: Directory
   - name: code
     hostPath:
-      path: /home/sotolito/sm/django-rest/
+      path: /home/sotolitolabs/sm/src
       type: Directory
 
 
