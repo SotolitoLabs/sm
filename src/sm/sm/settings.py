@@ -12,20 +12,46 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+# To avoid the problem of local development or production modifications
+# to settings.py in git, we created a local_settings.py file to store the
+# particular settings for running this application either in the development
+# or production environments.
+# The local_settings.py file should exist and should have the following variables:
+# LOCAL_SECRET_KEY 
+# LOCAL_ALLOWED_HOSTS
+# LOCAL_STAGE_DATABASE_NAME
+# LOCAL_STAGE_DATABASE_USER
+# LOCAL_STAGE_DATABASE_PASSWORD
+# LOCAL_PRODUCTION_DATABASE_NAME
+# LOCAL_PRODUCTION_DATABASE_USER
+# LOCAL_PRODUCTION_DATABASE_PASSWORD
+# with the proper values for the environment in which the application is running.
+# THIS FILE SHOULD NOT BE ADDED TO GIT 
+
+# Import local_settings.py, this file should not be added to git
+# since it should only contain settings for the current environment
+
+from .local_settings import (LOCAL_SECRET_KEY, LOCAL_ALLOWED_HOSTS,
+                             LOCAL_STAGE_DATABASE_NAME, LOCAL_STAGE_DATABASE_USER,
+                             LOCAL_STAGE_DATABASE_PASSWORD, LOCAL_PRODUCTION_DATABASE_NAME,
+                             LOCAL_PRODUCTION_DATABASE_USER, LOCAL_PRODUCTION_DATABASE_PASSWORD)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'n0mhw$41jdwu3&4^xuz0hqwf2=rf546qoh3h_cg*#c^hhg2eqp'
+SECRET_KEY = LOCAL_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = LOCAL_ALLOWED_HOSTS
 
 
 # Application definition
@@ -83,18 +109,18 @@ DATABASES = {
 
     'stage': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydatabase',
-        'USER': 'mydatabaseuser',
-        'PASSWORD': 'mypassword',
+        'NAME': LOCAL_STAGE_DATABASE_NAME,
+        'USER': LOCAL_STAGE_DATABASE_USER,
+        'PASSWORD': LOCAL_STAGE_DATABASE_PASSWORD,
         'HOST': '127.0.0.1',
         'PORT': '5432',
     },
 
     'production': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydatabase',
-        'USER': 'mydatabaseuser',
-        'PASSWORD': 'mypassword',
+        'NAME': LOCAL_PRODUCTION_DATABASE_NAME,
+        'USER': LOCAL_PRODUCTION_DATABASE_USER,
+        'PASSWORD': LOCAL_PRODUCTION_DATABASE_PASSWORD,
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
