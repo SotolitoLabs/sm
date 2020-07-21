@@ -160,3 +160,4 @@ db.sqlite3
 
 src/sm/sm/settings.py.dev
 src/sm/sm/settings.py
+src/reload.me
