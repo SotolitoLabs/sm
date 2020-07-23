@@ -10,7 +10,7 @@ fi
 echo "Starting development environment for $1"
 podman play kube ${PODS}/django-env-${HOST}.yaml
 
-echo "Checking pod: django-env"
+echo "Checking pods:"
 podman pod ps
 
 
