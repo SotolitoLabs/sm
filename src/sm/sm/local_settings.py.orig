@@ -2,7 +2,7 @@
 
 LOCAL_SECRET_KEY = 'PUT YOUR KEY'
 LOCAL_DEBUG = True
-LOCAL_ALLOWED_HOSTS = ['127.0.0.1']
+LOCAL_ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Database values
 
