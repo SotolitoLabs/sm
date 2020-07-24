@@ -1,0 +1,15 @@
+# COPY THIS FILE TO local_settings.py
+
+LOCAL_SECRET_KEY = 'PUT YOUR KEY'
+LOCAL_DEBUG = True
+LOCAL_ALLOWED_HOSTS = ['127.0.0.1']
+
+# Database values
+
+LOCAL_STAGE_DATABASE_NAME = 'stage_db_name'
+LOCAL_STAGE_DATABASE_USER = 'stage_db_user'
+LOCAL_STAGE_DATABASE_PASSWORD = 'stage_db_pw'
+LOCAL_PRODUCTION_DATABASE_NAME = 'production_db_name'
+LOCAL_PRODUCTION_DATABASE_USER = 'production_db_user'
+LOCAL_PRODUCTION_DATABASE_PASSWORD = 'production_db_pw'
+
