@@ -1,3 +1,9 @@
 #!/bin/bash
 
-podman exec -ti django-rest /code/bootstrap_dev_env.sh
+CONTAINER="django-env-django-rest"
+
+if [[ "${1}" != "" ]]; then
+    CONTAINER=$1
+fi
+
+podman exec -ti ${CONTAINER} /code/bootstrap_dev_env.sh
