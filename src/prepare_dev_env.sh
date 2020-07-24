@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "Setup database"
 /code/sm/manage.py makemigrations
