@@ -29,7 +29,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark primary-color">
   
     <!-- Navbar brand -->
-    <a class="navbar-brand" href="#">Logo home</a>
+    <a class="navbar-brand" href="#">Salud Mental</a>
   
     <!-- Collapse button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
@@ -41,7 +41,7 @@
     <div class="collapse navbar-collapse" id="basicExampleNav">
         <ul class="navbar-nav ml-auto nav-flex-icons">
           <li class="nav-item avatar">
-            <a class="nav-link p-0" href="#">
+          <a class="nav-link p-0" href="index.html">
               <img src="img/avatar-placeholder.jpg" class="rounded-circle z-depth-0"
                 alt="Avatar de usuario" height="35">
             </a>
@@ -55,12 +55,19 @@
   
   </header>
   <!--Main Navigation-->
-<p>Columna 1 de 2 (side bar) ¿la necesitamos para este user?</p>
-<a href="#">Opción menú 1</a>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 mt-5"> 
+        <p>Menú:</p>
+        <a href="">Alguna opción en el menú</a>
+      </div>
+      <div class="col-md-10">
+
+
 <!--Main layout-->
-<main>
-  <h1>Responde test (este template es mobile first)</h1>
-  <p>Columna 2 de 2 (main content) para mostrar cada pregunta del test.</p>
+          <main class="mt-5">
+  <h1>Test</h1>
 
   <h4>1. ¿Cuál de las siguientes cosas no te comerías?</h4>
 
@@ -88,11 +95,11 @@
     </li>
   </ul>
 
-  <button type="button" class="btn btn-indigo" data-toggle="modal">
+<!--  <button type="button" class="btn btn-indigo" data-toggle="modal">
     Anterior
-  </button>
+  </button> -->
 
-  <button type="button" class="btn btn-indigo" data-toggle="modal">
+  <button type="button" onclick="window.location.href='user_test_question2.html'" class="btn btn-indigo" data-toggle="modal">
     Siguiente
   </button>
 </form>
@@ -100,6 +107,11 @@
 </main>
 
 <!--Main layout-->
+
+
+      </div>
+    </div>
+  </div>
 
 <!-- Footer -->
 <footer class="page-footer font-small blue pt-4 mt-4">
@@ -147,6 +159,7 @@ Links etc 2
 
 </footer>
 <!-- Footer -->
+
   <!-- End your project here-->
 
   <!-- jQuery -->

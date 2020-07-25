@@ -1,0 +1,63 @@
+#
+# Self deploy development pod for podman
+# Don't forget to change the path in the volumes section
+# (c) SotolitoLabs
+#
+# Iván Chavero <ichavero@chavero.com.mx>
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: django-env
+spec:
+  containers:
+  - name: django-nginx
+    image: quay.io/sotolitolabs/django-rest-nginx:latest
+    ports:
+    - containerPort: 80
+      hostPort: 8081
+    volumeMounts:
+    - name: nginx
+      mountPath: /usr/share/nginx/html
+  - name: django-postgres
+    image: quay.io/sotolitolabs/django-postgresql:latest
+    ports:
+    - containerPort: 5432
+    env:
+    - name: DJANGO_DB
+      value: test_db 
+    - name: DJANGO_DB_USER 
+      value: test_user 
+    - name: DJANGO_PASSWORD
+      value: prueba123
+    - name: POSTGRES_PASSWORD
+      value: prueba123 
+    volumeMounts:
+    - name: postgres
+      mountPath: /var/lib/postgresql/data
+  - name: django-rest
+    image: quay.io/sotolitolabs/django-rest:latest
+    command: ["/code/run_uwsgi.sh"]
+    ports:
+    - containerPort: 8000
+    volumeMounts:
+    - name: code
+      mountPath: /code
+  volumes:
+  - name: nginx
+    hostPath:
+      path: /sf__sm/sm/src/sm/static
+      type: Directory
+  - name: postgres
+    hostPath:
+      path: /sf__sm/tmp/salud_mental/django-postgres
+      type: Directory
+  - name: code
+    hostPath:
+      path: /sf__sm/sm/src
+      type: Directory
+
+
+
+
+

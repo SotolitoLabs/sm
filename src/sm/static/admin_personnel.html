@@ -22,14 +22,12 @@
 
 <!-- Start your project here--> 
 
-<!-- Modals -->
-
 <!--Section: Modals-->
 <section>
 
   <!--Modal: modalUploadEmployes-->
   <div class="modal fade" id="modalUploadEmployes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+      <div class="modal-dialog modal-notify modal-danger" role="document">
           <!--Content-->
           <div class="modal-content text-center">
               <!--Header-->
@@ -57,66 +55,88 @@
 </section>
 <!--Section: Modals-->
 
-<!-- Terminan modals-->
 <!--Main Navigation-->
 <header>
 
-  <!--Navbar-->
-  <nav class="navbar navbar-expand-lg navbar-dark primary-color">
-  
-    <!-- Navbar brand -->
-    <a class="navbar-brand" href="#">Logo home</a>
-  
-    <!-- Collapse button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="basicExampleNav">
-        <ul class="navbar-nav ml-auto nav-flex-icons">
-          <li class="nav-item avatar">
-            <a class="nav-link p-0" href="#">
-              <img src="img/avatar-placeholder.jpg" class="rounded-circle z-depth-0"
-                alt="Avatar de usuario" height="35">
-            </a>
-          </li>
-        </ul>
-    </div>
-    <!-- Collapsible content -->
-  
-  </nav>
-  <!--/.Navbar-->
-  
-  </header>
-  <!--Main Navigation-->
-<p>Columna 1 de 2 lateral con acceso a la funcionalidad esencial del MVP:</p>
-  <a href="admin.html">Opción menú 1</a>
-<!--Main layout-->
-<main>
-  <h1>Gestionar personal</h1>
-  <p>Columna 2 de 2 con tabla lista empleados.</p>
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark primary-color">
 
-  <button type="button" class="btn btn-indigo" data-toggle="modal" data-target="#modalUploadEmployes">
-    Agregar nuevos empleados
+  <!-- Navbar brand -->
+  <a class="navbar-brand" href="#">Salud Mental</a>
+
+  <!-- Collapse button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
   </button>
 
-  <form class="form-inline">
-    <div class="md-form my-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Buscar empleado" aria-label="Buscar empleado">
-    </div>
-    <button class="btn btn-indigo" type="submit">Buscar empleado</button>
-  </form>
+  <!-- Collapsible content -->
+  <div class="collapse navbar-collapse" id="basicExampleNav">
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item avatar">
+          <a class="nav-link p-0" href="index.html">
+            <img src="img/avatar-placeholder.jpg" class="rounded-circle z-depth-0"
+              alt="Avatar de usuario" height="35">
+          </a>
+        </li>
+      </ul>
+  </div>
+  <!-- Collapsible content -->
+
+</nav>
+<!--/.Navbar-->
+
+</header>
+  <!--Main Navigation-->
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 mt-5"> 
+		<p>Menú:</p>
+		  <a href="admin.html">Dashboard</a><br />
+		  <a href="admin_personnel.html">Personal</a><br />
+		  <a href="test_questions_upload.html">Tests</a><br />
+      </div>
+      <div class="col-md-10">
+
+<!--Main layout-->
+
+          <main class="mt-5">
+  <h1>Gestionar personal</h1>
+
+  <button type="button" class="btn btn-indigo" data-toggle="modal" data-target="#modalUploadEmployes">
+    Agregar empleados
+  </button>
+
           <!--Card-->
           <div class="card">
             <!--Card content-->
             <div class="card-body">
               <!--Title-->
-              <h4 class="card-title">Lista</h4>
+              <h4 class="card-title">Lista de empleados</h4>
               <!--Text-->
-              <p class="card-text">¿Cuáles campos?</p>
-              <p class="card-text">Clave Nombres Apellidos Área Ciudad Sucursal Estatus Habilitar / Deshabilitar tests Editar.</p>
+              
+
+
+
+   
+                 <p class="card-text">Clave Nombres Apellidos Área Ciudad Sucursal Estatus Habilitar / Deshabilitar tests Editar.</p>
+                         
+<ol>
+<li>Empleado 1</li>
+<li>Empleado 2</li>
+<li>Empleado 3</li>
+<li>Empleado 4</li>
+<li>Empleado 5</li>
+<li>Empleado 6</li>
+<li>Empleado 7</li>
+<li>Empleado 8</li>
+<li>Empleado 9</li>
+<li>Empleado ...</li>
+</ol>
+              
+              
+              
             </div>
           </div>
           <!--/.Card-->
@@ -172,6 +192,10 @@
 
 <!--Main layout-->
 
+    </div>
+  </div>
+</div>
+
 <!-- Footer -->
 <footer class="page-footer font-small blue pt-4 mt-4">
 
@@ -219,7 +243,7 @@ Links etc 2
 </footer>
 <!-- Footer -->
 
-  <!-- End your project here-->
+<!-- End your project here-->
 
   <!-- jQuery -->
   <script type="text/javascript" src="js/jquery.min.js"></script>
