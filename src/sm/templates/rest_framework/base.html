@@ -40,6 +40,7 @@
         <link rel="stylesheet" href="{% static "css/mdb.min.css" %}">
         <!-- Your custom styles (optional)
         <link rel="stylesheet" href="{% static "css/style.css" %}"> -->
+        <link rel="stylesheet" href="{% static "css/sm.css" %}"> 
         <!-- /SM Style -->
 
         {% if code_style %}<style>{{ code_style }}</style>{% endif %}
@@ -56,22 +57,29 @@
         <div class="navbar navbar-static-top {% block bootstrap_navbar_variant %}navbar-inverse{% endblock %}"
              role="navigation" aria-label="{% trans "navbar" %}">
           <div class="container">
-            <span>
-              {% block branding %}
-                <a class='navbar-brand' rel="nofollow" href='https://www.django-rest-framework.org/'>
+            {% block branding %}
+              <div class="row">
+                <div class="col-sm-1"><img class="logo-sotolito" src="{% static "img/logo_sotolito.png" %}" /></div>
+                <div class="col-sm-auto">
+                  <a class='navbar-brand' rel="nofollow" href='/'>
                     {% trans "Mental Health" %}
-                </a>
-              {% endblock %}
-            </span>
-            <ul class="nav navbar-nav pull-right">
-              {% block userlinks %}
-                {% if user.is_authenticated %}
-                  {% optional_logout request user %}
-                {% else %}
-                  {% optional_login request %}
-                {% endif %}
-              {% endblock %}
-            </ul>
+                  </a>
+                </div>
+
+                <div class="col-sm-auto">
+                  <ul class="nav navbar-nav pull-right">
+                    {% block userlinks %}
+                      {% if user.is_authenticated %}
+                        {% optional_logout request user %}
+                      {% else %}
+                        {% optional_login request %}
+                      {% endif %}
+                    {% endblock %}
+                  </ul>
+                </div>
+
+              </div>
+            {% endblock %}
           </div>
         </div>
       {% endblock %}
