@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 from rest_framework import viewsets, permissions
 from .permissions import IsOwnerOrReadOnly
 from .models import (MentalTest, MentalTestField, MentalTestFieldType,
@@ -15,6 +16,13 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(password=make_password(self.request.POST['password'], salt=None, hasher='default'))
+
+    def perform_update(self, serializer):
+        serializer.save(password=make_password(self.request.POST['password'], salt=None, hasher='default'))
+
 
 class MentalTestViewSet(viewsets.ModelViewSet):
     """

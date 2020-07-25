@@ -7,10 +7,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     """
         Serializer class for users
     """
-
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'groups']
+        fields = ['url', 'username', 'first_name', 'last_name', 'password', 'email', 'groups']
 
 class MentalTestSerializer(serializers.HyperlinkedModelSerializer):
     """
