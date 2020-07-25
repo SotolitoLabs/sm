@@ -2,3 +2,16 @@
     width: 60%;
     padding-top: 8%;
 }
+
+.sm-menu {
+    padding-bottom: 1%;
+    font-size: 18px;
+    color: white;
+}
+
+.sm-menu, a a:visited {
+    color: white !important;
+}
+
+
+
