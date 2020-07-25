@@ -21,6 +21,37 @@
 <body>
 
 <!-- Start your project here--> 
+
+<!--Section: Modals-->
+<section>
+
+  <!--Modal: modalTerms-->
+  <div class="modal fade" id="modalUploadTest1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-fluid modal-notify modal-danger" role="document">
+          <!--Content-->
+          <div class="modal-content text-center"  style="position: fixed; margin: 0; width: 100%; height: 100%;">
+              <!--Header-->
+              <div class="modal-header d-flex justify-content-center">
+                  <p class="heading">Términos y condiciones</p>
+              </div>
+              <!--Body-->
+              <div class="modal-body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer placerat, leo sed pulvinar eleifend, nunc erat consectetur justo, in laoreet metus odio eget diam. Vestibulum bibendum dignissim luctus. Pellentesque rhoncus fermentum nunc, quis vestibulum augue cursus eu. Sed ac consectetur ex, et imperdiet odio. Integer eget sagittis enim. Nunc pellentesque convallis lobortis. Ut rhoncus dui vel enim convallis vulputate. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris eleifend, velit et bibendum laoreet, lacus felis ornare neque, id sodales est tellus eget nibh. Vivamus ac consequat justo. Phasellus a rhoncus lorem. Mauris vitae ex fermentum, tincidunt leo at, molestie leo. Cras fringilla vel dolor sit amet consequat. Integer ac consequat ipsum. Etiam egestas, velit ut pharetra pulvinar, neque ipsum interdum magna, vel ullamcorper sapien nisi sed augue. Praesent eget tellus a orci accumsan lobortis ut vitae ipsum. Duis maximus elementum nulla, id sagittis massa tempor ut. Nam ornare ligula velit, ultrices imperdiet tortor volutpat mattis. Donec convallis est vitae turpis aliquet tincidunt. Proin tristique, risus et sollicitudin placerat, velit magna pulvinar velit, in sagittis erat tellus eu turpis. Curabitur hendrerit ullamcorper porta. Integer egestas augue massa, a interdum neque egestas eu. Duis a consectetur nisi. Sed molestie lectus id turpis consequat ullamcorper sed sit amet dui.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer placerat, leo sed pulvinar eleifend, nunc erat consectetur justo, in laoreet metus odio eget diam. Vestibulum bibendum dignissim luctus. Pellentesque rhoncus fermentum nunc, quis vestibulum augue cursus eu. Sed ac consectetur ex, et imperdiet odio. Integer eget sagittis enim. Nunc pellentesque convallis lobortis. Ut rhoncus dui vel enim convallis vulputate. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris eleifend, velit et bibendum laoreet, lacus felis ornare neque, id sodales est tellus eget nibh. Vivamus ac consequat justo. Phasellus a rhoncus lorem. Mauris vitae ex fermentum, tincidunt leo at, molestie leo. Cras fringilla vel dolor sit amet consequat. Integer ac consequat ipsum. Etiam egestas, velit ut pharetra pulvinar, neque ipsum interdum magna, vel ullamcorper sapien nisi sed augue. Praesent eget tellus a orci accumsan lobortis ut vitae ipsum. Duis maximus elementum nulla, id sagittis massa tempor ut. Nam ornare ligula velit, ultrices imperdiet tortor volutpat mattis. Donec convallis est vitae turpis aliquet tincidunt. Proin tristique, risus et sollicitudin placerat, velit magna pulvinar velit, in sagittis erat tellus eu turpis. Curabitur hendrerit ullamcorper porta. Integer egestas augue massa, a interdum neque egestas eu. Duis a consectetur nisi. Sed molestie lectus id turpis consequat ullamcorper sed sit amet dui.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer placerat, leo sed pulvinar eleifend, nunc erat consectetur justo, in laoreet metus odio eget diam. Vestibulum bibendum dignissim luctus. Pellentesque rhoncus fermentum nunc, quis vestibulum augue cursus eu. Sed ac consectetur ex, et imperdiet odio. Integer eget sagittis enim. Nunc pellentesque convallis lobortis. Ut rhoncus dui vel enim convallis vulputate. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris eleifend, velit et bibendum laoreet, lacus felis ornare neque, id sodales est tellus eget nibh. Vivamus ac consequat justo. Phasellus a rhoncus lorem. Mauris vitae ex fermentum, tincidunt leo at, molestie leo. Cras fringilla vel dolor sit amet consequat. Integer ac consequat ipsum. Etiam egestas, velit ut pharetra pulvinar, neque ipsum interdum magna, vel ullamcorper sapien nisi sed augue. Praesent eget tellus a orci accumsan lobortis ut vitae ipsum. Duis maximus elementum nulla, id sagittis massa tempor ut. Nam ornare ligula velit, ultrices imperdiet tortor volutpat mattis. Donec convallis est vitae turpis aliquet tincidunt. Proin tristique, risus et sollicitudin placerat, velit magna pulvinar velit, in sagittis erat tellus eu turpis. Curabitur hendrerit ullamcorper porta. Integer egestas augue massa, a interdum neque egestas eu. Duis a consectetur nisi. Sed molestie lectus id turpis consequat ullamcorper sed sit amet dui.</p>
+              </div>
+              <div class="modal-footer flex-center">
+                  <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">Acepto</a>
+              </div>
+          </div>
+          <!--/.Content-->
+      </div>
+  </div>
+  <!-- End Modal: modalTerms-->
+
+</section>
+<!--Section: Modals-->
+
 <!--Main Navigation-->
 <header>
 
@@ -249,6 +280,12 @@ Links etc 2
   <script type="text/javascript" src="js/mdb.min.js"></script>
   <!-- Your custom scripts (optional) -->
   <script type="text/javascript"></script>
+
+  <script>
+    $(document).ready(function(){
+        $("#modalUploadTest1").modal('show');
+    });
+</script>
 
 </body>
 </html>
