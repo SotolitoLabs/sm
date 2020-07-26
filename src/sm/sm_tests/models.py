@@ -25,7 +25,7 @@ class MentalTestField(models.Model):
     """
         Mental Test Field class, stores the field for mental tests.
     """
-    test = models.ForeignKey(MentalTest, on_delete=models.DO_NOTHING)
+    test = models.ForeignKey(MentalTest, related_name='mental_test_fields', on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     field_type = models.ForeignKey(MentalTestFieldType, related_name='fieldtypes',

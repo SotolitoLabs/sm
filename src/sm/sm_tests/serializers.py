@@ -9,17 +9,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     """
     class Meta:
         model = User
-        fields = ['url', 'username', 'first_name', 'last_name', 'password', 'email', 'groups']
+        fields = ['url', 'id', 'username', 'first_name', 'last_name', 'password', 'email', 'groups']
 
-class MentalTestSerializer(serializers.HyperlinkedModelSerializer):
-    """
-       Serializer class for Mental Test
-    """
-    class Meta:
-        model = MentalTest
-        fields = ['url', 'owner', 'name', 'description']
-
-    owner = serializers.ReadOnlyField(source='owner.username')
 
 class MentalTestFieldTypeSerializer(serializers.HyperlinkedModelSerializer):
     """
@@ -27,7 +18,8 @@ class MentalTestFieldTypeSerializer(serializers.HyperlinkedModelSerializer):
     """
     class Meta:
         model = MentalTestFieldType
-        fields = ['name', 'description']
+        fields = ['url', 'id', 'name', 'description']
+
 
 class MentalTestFieldSerializer(serializers.HyperlinkedModelSerializer):
     """
@@ -35,7 +27,21 @@ class MentalTestFieldSerializer(serializers.HyperlinkedModelSerializer):
     """
     class Meta:
         model = MentalTestField
-        fields = ['url', 'test', 'name', 'description', 'field_type', 'weight']
+        fields = ['url', 'id', 'test', 'name', 'description', 'field_type', 'weight']
+
+
+class MentalTestSerializer(serializers.HyperlinkedModelSerializer):
+    """
+       Serializer class for Mental Test
+    """
+    mental_test_fields = MentalTestFieldSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = MentalTest
+        fields = ['url', 'id', 'owner', 'name', 'description', 'mental_test_fields']
+
+    owner = serializers.ReadOnlyField(source='owner.username')
+
 
 class MentalTestResultSerializer(serializers.HyperlinkedModelSerializer):
     """
