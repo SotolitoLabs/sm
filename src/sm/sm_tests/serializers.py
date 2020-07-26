@@ -35,7 +35,7 @@ class MentalTestFieldSerializer(serializers.HyperlinkedModelSerializer):
     """
     class Meta:
         model = MentalTestField
-        fields = ['test', 'name', 'description', 'field_type', 'weight']
+        fields = ['url', 'test', 'name', 'description', 'field_type', 'weight']
 
 class MentalTestResultSerializer(serializers.HyperlinkedModelSerializer):
     """
@@ -43,6 +43,6 @@ class MentalTestResultSerializer(serializers.HyperlinkedModelSerializer):
     """
     class Meta:
         model = MentalTestResult
-        fields = ['test', 'user', 'test_field', 'value']
+        fields = ['url', 'test', 'user', 'test_field', 'value']
 
     user = serializers.ReadOnlyField(source='user.username')
