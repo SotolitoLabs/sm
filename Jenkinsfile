@@ -19,6 +19,10 @@ node {
 
   
     stage('Sync Development Environment') {
+         when {
+             branch 'master'
+         }
+
         sh ('''
             cd /var/sm/
             git pull
