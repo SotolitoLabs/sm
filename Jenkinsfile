@@ -21,9 +21,6 @@ node {
     stage('Sync Development Environment') {
         sh ('''
             cd /var/sm/
-            
-            git config --global user.email "you@example.com"
-            git config --global user.name "Your Name"
             git pull
             echo "Reload application"
             touch src/reload.me
