@@ -17,7 +17,7 @@ class MentalTestSerializer(serializers.HyperlinkedModelSerializer):
     """
     class Meta:
         model = MentalTest
-        fields = ['owner', 'name', 'description']
+        fields = ['url', 'owner', 'name', 'description']
 
     owner = serializers.ReadOnlyField(source='owner.username')
 
