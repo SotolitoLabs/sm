@@ -19,16 +19,14 @@ node {
 
   
     stage('Sync Development Environment') {
-         when {
-             branch 'master'
-         }
-
-        sh ('''
-            cd /var/sm/
-            git pull
-            echo "Reload application"
-            touch src/reload.me
-        ''')
+        if (env.BRANCH_NAME ==~ /master/) {
+          sh ('''
+              cd /var/sm/
+              git pull
+              echo "Reload application"
+              touch src/reload.me
+          ''')
+       }
     }
 }
 
