@@ -62,7 +62,7 @@
                 <div class="col-sm-1"><img class="logo-sotolito" src="{% static "img/logo_sotolito.png" %}" /></div>
                 <div class="col-sm-auto">
                   <a class='navbar-brand' rel="nofollow" href='/'>
-                    {% trans "Mental Health" %}
+                    {% trans "DEV::Mental Health" %}
                   </a>
                 </div>
 
@@ -114,15 +114,13 @@
               {% block breadcrumbs_empty %}&nbsp;{% endblock breadcrumbs_empty %}
             {% endfor %}
           </ul>
-        {% endblock %}
+          {% endblock %} 
 
         <!-- Content -->
         <div id="content" role="main" aria-label="{% trans "content" %}">
           {% block content %}
-
           <div class="region"  aria-label="{% trans "request form" %}">
           {% block request_forms %}
-          
           {% if 'GET' in allowed_methods %}
             <form id="get-form" class="pull-right">
               <fieldset>
@@ -143,7 +141,7 @@
                   </div>
                 {% else %}
                   <a class="btn btn-primary js-tooltip" href="{{ request.get_full_path }}" rel="nofollow" title="Make a GET request on the {{ name }} resource">GET</a>
-                {% endif %}
+                  {% endif %} 
               </fieldset>
             </form>
           {% endif %}
