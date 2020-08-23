@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from .models import (MentalTest, MentalTestField, MentalTestFieldType,
                      MentalTestResult)
 from rest_framework import serializers
+from rest_framework.renderers import AdminRenderer, JSONRenderer
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     """
@@ -34,13 +35,24 @@ class MentalTestSerializer(serializers.HyperlinkedModelSerializer):
     """
        Serializer class for Mental Test
     """
-    mental_test_fields = MentalTestFieldSerializer(many=True, read_only=True)
+    #renderer_classes = [AdminRenderer]
+    #renderer_classes = [JSONRenderer]
+    #renderer_classes = [PlainTextRenderer]
+    mental_test_fields = MentalTestFieldSerializer(many=True, read_only=False)
+    #user = "TEST_USER"
 
     class Meta:
         model = MentalTest
+        #fields = ['user', 'url', 'id', 'owner', 'name', 'description', 'mental_test_fields']
         fields = ['url', 'id', 'owner', 'name', 'description', 'mental_test_fields']
+        #read_only_fields = ['user']
+
 
     owner = serializers.ReadOnlyField(source='owner.username')
+
+    def validate(self, attrs):
+        attrs['user'] = self.context['request'].user
+        return attrs
 
 
 class MentalTestResultSerializer(serializers.HyperlinkedModelSerializer):

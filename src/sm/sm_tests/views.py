@@ -8,6 +8,9 @@ from .models import (MentalTest, MentalTestField, MentalTestFieldType,
 from .serializers import (UserSerializer, MentalTestSerializer,
                           MentalTestFieldSerializer, MentalTestFieldTypeSerializer,
                           MentalTestResultSerializer)
+from .renderers import PlainTextRenderer
+from rest_framework.renderers import (BrowsableAPIRenderer, JSONRenderer, AdminRenderer,
+                                     TemplateHTMLRenderer)
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -30,7 +33,15 @@ class MentalTestViewSet(viewsets.ModelViewSet):
     """
     queryset = MentalTest.objects.all().order_by('-id')
     serializer_class = MentalTestSerializer
+    #renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
+    #renderer_classes = [JSONRenderer]
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    #template_name = "test.html"
+
+    #def get(self, request, pk):
+    #    mt = get_object_or_404(MentalTest, pk=pk)
+    #    serializer = MentalTestSerializer(mt)
+    #    return Response({'serializer': serializer})
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
