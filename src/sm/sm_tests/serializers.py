@@ -31,28 +31,30 @@ class MentalTestFieldSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'id', 'test', 'name', 'description', 'field_type', 'weight']
 
 
+#class CurrentUser(serializers.RelatedField):
+    #def to_representation(self, value):
+    #def get_object(self, view_name, view_args, view_kwargs):
+    #    user = serializers.CurrentUserDefault()
+    #    logger = logging.getLogger(__name__)
+    #    logger.info("USER: " + user)
+    #    return user
+
 class MentalTestSerializer(serializers.HyperlinkedModelSerializer):
     """
        Serializer class for Mental Test
     """
-    #renderer_classes = [AdminRenderer]
-    #renderer_classes = [JSONRenderer]
-    #renderer_classes = [PlainTextRenderer]
     mental_test_fields = MentalTestFieldSerializer(many=True, read_only=False)
-    #user = "TEST_USER"
-
+    current_user = serializers.StringRelatedField(
+        read_only=True, 
+        default=serializers.CurrentUserDefault()
+    )
+    #current_user = CurrentUser(read_only=True)
+    #current_user = current_user.name
     class Meta:
         model = MentalTest
-        #fields = ['user', 'url', 'id', 'owner', 'name', 'description', 'mental_test_fields']
-        fields = ['url', 'id', 'owner', 'name', 'description', 'mental_test_fields']
-        #read_only_fields = ['user']
-
+        fields = ['url', 'id', 'owner', 'name', 'description', 'mental_test_fields', 'current_user']
 
     owner = serializers.ReadOnlyField(source='owner.username')
-
-    def validate(self, attrs):
-        attrs['user'] = self.context['request'].user
-        return attrs
 
 
 class MentalTestResultSerializer(serializers.HyperlinkedModelSerializer):
