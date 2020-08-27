@@ -19,7 +19,7 @@ class MentalTestFieldTypeSerializer(serializers.HyperlinkedModelSerializer):
     """
     class Meta:
         model = MentalTestFieldType
-        fields = ['url', 'id', 'name', 'description', 'initial_range', 'final_range']
+        fields = ['url', 'id', 'name', 'description', 'initial_range', 'final_range', 'initial_label', 'final_label']
 
 
 class MentalTestFieldSerializer(serializers.HyperlinkedModelSerializer):

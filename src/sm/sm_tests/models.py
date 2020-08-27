@@ -17,6 +17,8 @@ class MentalTestFieldType(models.Model):
     """
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
+    initial_label = models.CharField(max_length=255)
+    final_label = models.CharField(max_length=255)
     initial_range = models.IntegerField(default=0)
     final_range = models.IntegerField(default=0)
 
