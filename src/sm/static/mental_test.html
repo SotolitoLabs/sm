@@ -23,6 +23,7 @@
   <script src="/static/rest_framework/js/bootstrap.min.js"></script>
   <script src="/static/rest_framework/js/prettify-min.js"></script>
   <script src="/static/rest_framework/js/default.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 
 
 <!-- SLIDER -->
@@ -88,15 +89,17 @@ body {
   margin: 60px 2px;
   cursor: pointer;
 }
+
+.collapsed-question {
+  display: none;
+}
+
 </style>
 <script>
-var slider = document.getElementById("myRange");
-var output = document.getElementById("demo");
-output.innerHTML = slider.value;
-
-slider.oninput = function() {
-  output.innerHTML = this.value;
-}
+/* var slider = document.getElementById("question_range");
+var output = document.getElementById("output"); */
+var slider = "";
+var output = "";
 </script>
 
 <!-- SLIDER -->
@@ -143,44 +146,154 @@ slider.oninput = function() {
   var api_host = document.location.protocol + "//" + document.location.host;
   var data;
   var questions = "";
+  var current_question = 0;
+  var total_questions = 0;
+  var mental_test_list = "";
+  var current_user = "";
+  var id = get_url_vars()["id"];
 
   // Read a page's GET URL variables and return them as an associative array.
   // https://stackoverflow.com/questions/4656843/get-querystring-from-url-using-jquery
-  function getUrlVars()
-  {
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for(var i = 0; i < hashes.length; i++) {
+    function get_url_vars() {
+      var vars = [], hash;
+      var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+      for(var i = 0; i < hashes.length; i++) {
         hash = hashes[i].split('=');
         vars.push(hash[0]);
         vars[hash[0]] = hash[1];
+      }
+      return vars;
     }
-    return vars;
-  }
 
-  function add_question(m) {
-      questions += '<li id="' + m.id + '">' +
+    function add_question(m, index) {
+      var middle_range = Math.round(m.field_type.final_range / 2);
+      questions += '<li id="question-' + index + '" class="d-none">' +
         '<input type="radio" id="f-option" name="selector">' +
-        '<label for="f-option">' + m.name + '</label>' +
-        'Nada en absoluto <input type="range" min="10" max="100" value="55" class="slider" id="myRange"> Extremadamente' +
+        '<h4>' + index + '.&nbsp;' + m.name + '</h4>' +
+        '<strong>' + m.field_type.initial_label + '</strong>&nbsp;' +
+        '<input type="range" min="' + m.field_type.initial_range +
+        '" max="' + m.field_type.final_range + '" value="' + middle_range +
+        '" class="slider" id="question_range-' + index + '" name="' +
+        //m.id + '" onMouseDown="set_question(' + m.id + ')">' +
+        m.id + '" onMouseDown="set_question(this)">' +
+        '&nbsp;<strong>' + m.field_type.final_label + '</strong>' +
+        '<p>Valor: <span id="output-' + m.id  + '"></span></p>' +
         '</li>';
-  }
+    }
 
+
+
+    function add_mental_test(m, index) {
+      console.log("MENTAL TEST: " + m.name);
+      //mental_test_list += '<li><a href="
+    }
+
+    function set_question(slider) {
+      output = document.getElementById("output-" + slider.name);
+      output.innerHTML = slider.value;
+
+      slider.oninput = function() {
+        output.innerHTML = this.value;
+      }
+    }
+
+
+    // Load questions
+    $( document ).ready(function() {
+      // Get questions
+      console.log("Loading questions...");
+      $.getJSON(api_host + "/mental_test/" + id, function( data ) {
+        for (i = 0; i < data.mental_test_fields.length; i++) {
+          add_question(data.mental_test_fields[i], i + 1);
+        }
+
+        current_user = data.current_user;
+
+        $("#test-name").html(data.name);
+        $("#test-questions").html(questions);
+        //$("#question-1").hide().removeClass('d-none');
+        $("#question-1").removeClass('d-none');
+        current_question = 1;
+        total_questions = data.mental_test_fields.length;
+        console.log("questions succesfully loaded" );
+
+      })
+      .fail(function(jqxhr, text, error) {
+        //TODO: catch errors and show proper message
+        console.log("ERROR: " + jqxhr.responseText);
+        alert("ERROR: " + jqxhr.responseText);
+
+      });
  
-  id = getUrlVars()["id"];
-
-  $.getJSON(api_host + "/mental_test/" + id, function( data ) {
-    data.mental_test_fields.forEach(add_question);
-    $("#test-name").html(data.name);
-    $("#test-questions").html(questions);
-  });
- 
- 
- // -->
- </script>
- <!-- /DATA -->
+      // Get mental tests
+      console.log("Loading Mental Test list...");
+      $.getJSON(api_host + "/mental_test/", function( data ) {
+        for (i = 0; i < data.length; i++) {
+          add_mental_test(data[i], i + 1);
+        }
+      });
+    });
 
 
+    function show_previous_question() {
+      if (current_question > 1) {
+        $("#question-" + current_question).addClass('d-none');
+        current_question = current_question - 1;
+        $("#question-" + current_question).removeClass('d-none');
+      }
+    }
+
+
+    function show_next_question() {
+      if (current_question < total_questions ) {
+        $("#question-" + current_question).addClass('d-none');
+        current_question = current_question + 1;
+        $("#question-" + current_question).removeClass('d-none');
+      }
+    }
+
+
+    function serialize_question() {
+      post_data = "[";
+      for(i = 1; i <= total_questions; i++) {
+        qs = document.getElementById("question_range-" + i);
+        post_data += '{' +
+          '"user": "' + current_user + '"' +
+          ', "test": "' + id + '"' +
+          ', "test_field": "' + qs.name + '"' +
+          ', "value": "' + qs.value + '"' +
+          '},';
+      }
+      post_data = post_data.replace(/,$/, "");
+      post_data += "]";
+      return post_data;
+    }
+
+
+    function send_mental_test(f) {
+      post_data = serialize_question();
+      //post_data = '{"test": 1, "test_field": 1, "value": 1, "user": "admin"},';
+
+      csrf = Cookies.get("csrftoken");
+      $.ajaxSetup({
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-CSRFToken': csrf
+        }
+      });
+      $.post( "/mental_test_result/", post_data)
+      .fail(function(jqxhr, text, error) {
+        console.log("Mental test failed: " + jqxhr.responseText);
+        alert("Mental test failed: " + jqxhr.responseText);
+      })
+      .done(function(data) {
+        alert("DATA: " + data);
+      });
+    }
+   // -->
+  </script>
+   <!-- /DATA -->
 
   </header>
   <!--Main Navigation-->
@@ -190,46 +303,32 @@ slider.oninput = function() {
       <div class="col-md-2 mt-5"> 
         <p>Menú:</p>
         <a href="/static/mental_test_list.html">Cuestionarios</a>
+        <ul id="mental_test_list"></ul>
       </div>
       <div class="col-md-10">
-
-
-<!--Main layout-->
+     <!--Main layout-->
      <main class="mt-5">
        <div id="test-container">  
          <h1 id="test-name">Test</h1>
-
-         <h4>1. ¿Cuál de las siguientes cosas no te comerías?</h4>
-
-         <form>
+         <form id="mental_test" name="mental_test">
+         <input type="hidden" id="current_user" name="current_user" value="" />
          <ul id="test-questions" class="col-sm">
-           <li id="test">
-             <input type="radio" id="f-option" name="selector">
-             <label for="f-option">Pizza</label>
-      
-              <div class="check"></div>
-           </li>
-    
            <li>
-             <input type="radio" id="s-option" name="selector">
-             <label for="s-option">Tocino</label>
-      
-            <div class="check"><div class="inside"></div></div>
+            <div class="loading">Cargando preguntas...</div>
            </li>
-    
        </ul>
     </div>
 
-<!--  <button type="button" class="btn btn-indigo" data-toggle="modal">
-    Anterior
-  </button> -->
-<!--
-  <button type="button" class="btn btn-indigo" data-toggle="modal" onclick="window.location.href='user_test_question.html'">
+  <button type="button" id="button_previous" class="btn btn-indigo" data-toggle="modal" onClick="show_previous_question()">
     Anterior
   </button>
--->
+
+  <button type="button" id="button_next" class="btn btn-indigo" data-toggle="modal" onclick="show_next_question()">
+    Siguiente
+  </button>
+
   <div>
-    <button type="button" class="btn btn-indigo" data-toggle="modal" onclick="window.location.href='user_test_videos.html'">
+    <button type="button" class="btn btn-indigo" data-toggle="modal" onclick="send_mental_test(this.form)">
       Enviar
     </button>
   </div>
