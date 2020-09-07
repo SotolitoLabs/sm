@@ -9,20 +9,24 @@
 <style>
 
 body {
-    font-family: 'Roboto';font-size: 16px; color: grey;
-    background-color: #FDF6E6
+    font-family: 'Roboto';font-size: 16px; color:#d75c37;
+    background-color: lightgray;
+    background-image: url(https://bloomhospital.com/images/pattern/p7.png);
+    background-size: 25%;
+    
 }
 
 .slidecontainer {
   width: 100%;
   margin-top: 60px;
+  text-align:center
 }
 
 .slider {
   -webkit-appearance: none;
   width: 50%;
   height: 25px;
-  background: #d3d3d3;
+  background: lightslategray;
   outline: none;
   opacity: 0.7;
   -webkit-transition: .2s;
@@ -39,8 +43,8 @@ body {
   appearance: none;
   width: 60px;
   height: 60px;
-  background: orange;
-  background-image: url("https://img.icons8.com/cotton/2x/button--v2.png");
+  background:grey;
+  background-image: url("https://cdn.pixabay.com/photo/2016/04/30/16/53/button-1363270_960_720.png");
   background-repeat:no-repeat;
   background-size:cover;
   cursor: pointer;
@@ -50,54 +54,187 @@ body {
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
-  background: #4CAF50;
+  background: grey;
   cursor: pointer;
 }
 
 .button {
-  background-color: #E15555;
+  width: 30%;
+  background-color:darkslategray;
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 16px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 18px;
   margin: 60px 2px;
   cursor: pointer;
+  border-radius: 26px;
 }
+
+
+
+
+
+.range-wrap {
+  position: relative;
+  margin: 100;
+}
+.range {
+  width: 100%;
+}
+.bubble {
+  background:darkslategray;
+  color: white;
+  padding: 8px 20px;
+  position: absolute;
+  border-radius: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.progress {
+  list-style: none;
+  margin: 0;
+  margin-bottom: 70px;
+  padding: 0;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  color: #849397;
+}
+.progress > li {
+  position: relative;
+  display: table-cell;
+  text-align: center;
+  font-size: 0.8em;
+}
+.progress > li:before {
+  content: attr(data-step);
+  display: block;
+  margin: 0 auto;
+  background: #DFE3E4;
+  width: 3em;
+  height: 3em;
+  text-align: center;
+  margin-bottom: 0.25em;
+  line-height: 3em;
+  border-radius: 100%;
+  position: relative;
+  z-index: 1000;
+}
+.progress > li:after {
+  content: '';
+  position: absolute;
+  display: block;
+  background: #DFE3E4;
+  width: 100%;
+  height: 0.5em;
+  top: 1.25em;
+  left: 50%;
+  margin-left: 1.5em\9;
+  z-index: -1;
+}
+.progress > li:last-child:after {
+  display: none;
+}
+.progress > li.is-complete {
+  color: #2ECC71;
+}
+.progress > li.is-complete:before, .progress > li.is-complete:after {
+  color: #FFF;
+  background: #2ECC71;
+}
+.progress > li.is-active {
+  color: slategray;
+}
+.progress > li.is-active:before {
+  color: #FFF;
+  background: slategray;
+}
+
+/**
+ * Needed for IE8
+ */
+.progress__last:after {
+  display: none !important;
+}
+
+/**
+ * Size Extensions
+ */
+.progress--medium {
+  font-size: 1.5em;
+}
+
+.progress--large {
+  font-size: 2em;
+}
+
+
+
 
 
 </style>
 
 </head>
 <body>
+  
+<div class="slidecontainer">
 
+  <ol class="progress">
+    <li class="is-active" data-step="1">
+      Test 1
+    </li>
+    <li data-step="2">
+      Test 2
+    </li>
+    <li data-step="3">
+      Test 3
+    </li>    
+    <li data-step="4" class="progress__last">
+      Test 4
+    </li>
+  </ol>
+  
+  <!-- TERMINA PROGRESS BAR -->
+  
 
-
-<div class="slidecontainer" style="text-align:center">
 <h1>
 Pienso o imagino, repetidamente, que voy a enfermar
 </h1>
-<form style="margin-top: 80px">
-Nada en absoluto <input type="range" min="10" max="100" value="55" class="slider" id="myRange"> Extremadamente
-</form>
 
-<p>Valor: <span id="demo"></span></p>
+<div class="range-wrap">
+  <input type="range" class="range slider"> 
+  <output class="bubble" style="margin-top: -80px;"></output>
+</div>
 
-
-<button type="submit" form="form1" class="button value="Submit">Continuar</button>
-
+<button type="submit" form="form1" class="button value="Submit">Siguiente</button>
 
 </div>
 
 <script>
-var slider = document.getElementById("myRange");
-var output = document.getElementById("demo");
-output.innerHTML = slider.value;
+const allRanges = document.querySelectorAll(".range-wrap");
+allRanges.forEach(wrap => {
+  const range = wrap.querySelector(".range");
+  const bubble = wrap.querySelector(".bubble");
 
-slider.oninput = function() {
-  output.innerHTML = this.value;
+  range.addEventListener("input", () => {
+    setBubble(range, bubble);
+  });
+  setBubble(range, bubble);
+});
+
+function setBubble(range, bubble) {
+  const val = range.value;
+  const min = range.min ? range.min : 0;
+  const max = range.max ? range.max : 100;
+  const newVal = Number(((val - min) * 100) / (max - min));
+  bubble.innerHTML = val;
+
+  // Sorta magic numbers based on size of the native UI thumb
+  bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
 }
 </script>
 
