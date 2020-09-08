@@ -50,4 +50,4 @@ class MentalTestResult(models.Model):
     value = models.CharField(max_length=5)
 
     def __str__(self):
-        return self.test_field.name + " :: " + self.user.name
+        return self.test_field.name + " :: " + self.user.username
