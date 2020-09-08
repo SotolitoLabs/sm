@@ -272,8 +272,6 @@ var output = "";
 
     function send_mental_test(f) {
       post_data = serialize_question();
-      //post_data = '{"test": 1, "test_field": 1, "value": 1, "user": "admin"},';
-
       csrf = Cookies.get("csrftoken");
       $.ajaxSetup({
         headers: {
@@ -282,13 +280,13 @@ var output = "";
           'X-CSRFToken': csrf
         }
       });
-      $.post( "/mental_test_result/", post_data)
+      $.post( "/mental_test_results/", post_data)
       .fail(function(jqxhr, text, error) {
         console.log("Mental test failed: " + jqxhr.responseText);
         alert("Mental test failed: " + jqxhr.responseText);
       })
       .done(function(data) {
-        alert("DATA: " + data);
+        alert(data.success);
       });
     }
    // -->
