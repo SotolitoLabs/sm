@@ -33,25 +33,15 @@ class MentalTestFieldSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'id', 'test', 'name', 'description', 'field_type', 'weight']
 
 
-#class CurrentUser(serializers.RelatedField):
-    #def to_representation(self, value):
-    #def get_object(self, view_name, view_args, view_kwargs):
-    #    user = serializers.CurrentUserDefault()
-    #    logger = logging.getLogger(__name__)
-    #    logger.info("USER: " + user)
-    #    return user
-
 class MentalTestSerializer(serializers.HyperlinkedModelSerializer):
     """
        Serializer class for Mental Test
     """
     mental_test_fields = MentalTestFieldSerializer(many=True, read_only=False)
-    current_user = serializers.StringRelatedField(
-        read_only=True, 
+    current_user = serializers.PrimaryKeyRelatedField(
+        read_only=True,
         default=serializers.CurrentUserDefault()
     )
-    #current_user = CurrentUser(read_only=True)
-    #current_user = current_user.name
     class Meta:
         model = MentalTest
         fields = ['url', 'id', 'owner', 'name', 'description', 'mental_test_fields', 'current_user']
@@ -68,3 +58,22 @@ class MentalTestResultSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'test', 'user', 'test_field', 'value']
 
     user = serializers.ReadOnlyField(source='user.username')
+
+
+# Class for creating multiple results 
+class MentalTestResultCreateSerializer(serializers.ModelSerializer):
+    """
+        Serializer class for Creating multiple Mental Test Results
+        This class is needed for capturing all the Mental Test Results
+        in one POST request.
+    """
+    class Meta:
+        model = MentalTestResult
+        fields = ['url', 'test', 'user', 'test_field', 'value']
+
+
+    def create(self, validated_data):
+        print("Creating mental test results: " + str(validated_data))
+        MentalTestResult.objects.create(**validated_data)
+ 
+
