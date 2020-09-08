@@ -9,6 +9,7 @@ router.register(r'mental_test', views.MentalTestViewSet)
 router.register(r'mental_test_field', views.MentalTestFieldViewSet)
 router.register(r'mental_test_field_type', views.MentalTestFieldTypeViewSet)
 router.register(r'mental_test_result', views.MentalTestResultViewSet)
+router.register(r'mental_test_results', views.MentalTestResultsViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
