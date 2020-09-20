@@ -22,6 +22,25 @@ class MentalTestFieldTypeSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'id', 'name', 'description', 'initial_range', 'final_range', 'initial_label', 'final_label']
 
 
+class MentalTestFieldUserResultSerializer(serializers.ModelSerializer):
+    """
+       Serializer class for Mental Test Results for a given user
+    """
+
+    class Meta:
+        model = MentalTestResult
+        fields = ['url', 'test', 'user', 'test_field', 'value', 'current_user']
+
+    current_user = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+        default=serializers.CurrentUserDefault()
+    )
+    
+    def to_representation(self, instance):
+        instance['value'] = -1
+        return instance
+
+
 class MentalTestFieldSerializer(serializers.HyperlinkedModelSerializer):
     """
         Serializer class for Mental Test Field
@@ -30,13 +49,16 @@ class MentalTestFieldSerializer(serializers.HyperlinkedModelSerializer):
     field_type = MentalTestFieldTypeSerializer()
     class Meta:
         model = MentalTestField
+        #fields = ['url', 'id', 'test', 'name', 'description', 'field_type', 'weight', 'value']
         fields = ['url', 'id', 'test', 'name', 'description', 'field_type', 'weight']
+
 
 
 class MentalTestSerializer(serializers.HyperlinkedModelSerializer):
     """
        Serializer class for Mental Test
     """
+    
     mental_test_fields = MentalTestFieldSerializer(many=True, read_only=False)
     current_user = serializers.PrimaryKeyRelatedField(
         read_only=True,
@@ -53,6 +75,7 @@ class MentalTestResultSerializer(serializers.HyperlinkedModelSerializer):
     """
         Serializer class for Mental Test Results
     """
+
     class Meta:
         model = MentalTestResult
         fields = ['url', 'test', 'user', 'test_field', 'value']
@@ -67,6 +90,7 @@ class MentalTestResultCreateSerializer(serializers.ModelSerializer):
         This class is needed for capturing all the Mental Test Results
         in one POST request.
     """
+
     class Meta:
         model = MentalTestResult
         fields = ['url', 'test', 'user', 'test_field', 'value']
