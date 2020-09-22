@@ -41,6 +41,25 @@ class MentalTestFieldUserResultSerializer(serializers.ModelSerializer):
         return instance
 
 
+class MentalTestResultSerializer(serializers.ModelSerializer):
+    """
+        Serializer class for Mental Test Results
+    """
+
+    current_user = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+        default=serializers.CurrentUserDefault()
+    )
+
+    class Meta:
+        model = MentalTestResult
+        fields = ['url', 'test', 'user', 'test_field', 'value', 'current_user']
+        depth = 2
+
+    user = serializers.ReadOnlyField(source='user.username')
+
+
+
 class MentalTestFieldSerializer(serializers.HyperlinkedModelSerializer):
     """
         Serializer class for Mental Test Field
@@ -49,7 +68,6 @@ class MentalTestFieldSerializer(serializers.HyperlinkedModelSerializer):
     field_type = MentalTestFieldTypeSerializer()
     class Meta:
         model = MentalTestField
-        #fields = ['url', 'id', 'test', 'name', 'description', 'field_type', 'weight', 'value']
         fields = ['url', 'id', 'test', 'name', 'description', 'field_type', 'weight']
 
 
@@ -69,18 +87,6 @@ class MentalTestSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'id', 'owner', 'name', 'description', 'mental_test_fields', 'current_user']
 
     owner = serializers.ReadOnlyField(source='owner.username')
-
-
-class MentalTestResultSerializer(serializers.HyperlinkedModelSerializer):
-    """
-        Serializer class for Mental Test Results
-    """
-
-    class Meta:
-        model = MentalTestResult
-        fields = ['url', 'test', 'user', 'test_field', 'value']
-
-    user = serializers.ReadOnlyField(source='user.username')
 
 
 # Class for creating multiple results 
