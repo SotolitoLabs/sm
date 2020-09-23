@@ -43,9 +43,9 @@ class MentalTestResult(models.Model):
     """
         Mental Test Resutl class, stores the results
     """
-    test = models.ForeignKey(MentalTest, on_delete=models.DO_NOTHING)
-    user = models.ForeignKey('auth.User', related_name='mentaltests', on_delete=models.DO_NOTHING)
-    test_field = models.ForeignKey(MentalTestField, related_name='mentaltestfieldtypes',
+    test = models.ForeignKey(MentalTest, related_name='test', on_delete=models.DO_NOTHING)
+    user = models.ForeignKey('auth.User', related_name='user', on_delete=models.DO_NOTHING)
+    test_field = models.ForeignKey(MentalTestField, related_name='test_field',
                                    on_delete=models.DO_NOTHING)
     value = models.CharField(max_length=5)
 

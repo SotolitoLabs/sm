@@ -16,6 +16,9 @@ from .renderers import PlainTextRenderer
 from rest_framework.renderers import (BrowsableAPIRenderer, JSONRenderer, AdminRenderer,
                                      TemplateHTMLRenderer)
 
+
+from rest_framework.request import Request
+
 # Temporal imports
 import sys
 
@@ -39,20 +42,9 @@ class MentalTestViewSet(viewsets.ModelViewSet):
     """
     API endpoint for users
     """
-    queryset = MentalTest.objects.all().order_by('-id')
+    queryset = MentalTest.objects.all().order_by('id')
     serializer_class = MentalTestSerializer
-    #renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
-    #renderer_classes = [JSONRenderer]
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
-    #template_name = "test.html"
-
-    #def get(self, request, pk):
-    #    mt = get_object_or_404(MentalTest, pk=pk)
-    #    serializer = MentalTestSerializer(mt)
-    #    import logging
-    #    logger = logging.getLogger(__name__)
-    #    logger.info("USER: " + user)
-    #    return Response({'serializer': serializer})
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -84,11 +76,20 @@ class MentalTestResultViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-
 class MentalTestResultsViewSet(viewsets.ModelViewSet):
     queryset = MentalTestResult.objects.all().order_by('-id')
     serializer_class = MentalTestResultSerializer
+    lookup_field = "test"
     user = ""
+
+    def retrieve(self, request, *args, **kwargs):
+        queryset = MentalTestResult.objects.filter(user = self.request.user.id, test = kwargs['test']).order_by('id')
+        if len(queryset) > 0:
+            serializer = MentalTestResultSerializer(queryset, many=True, context={'request': request})
+        else:
+            queryset = MentalTestField.objects.filter(test = kwargs['test']).order_by('id')
+            serializer = MentalTestFieldSerializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
 
 
     def create(self, request, *args, **kwargs):
