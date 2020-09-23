@@ -128,6 +128,13 @@
       font-size: 0.8em;
     }
     
+
+    .sm-progress > li > a {
+      color: inherit; /* blue colors for links too */
+      text-decoration: inherit; /* no underline */
+     }
+
+
     .sm-progress > li:before {
       content: attr(data-step);
       display: block;
@@ -213,11 +220,12 @@
     var data;
     var questions = "";
     var indicators = "";
+    var progress_bar_content = "";
     var current_question = 0;
     var total_questions = 0;
     var mental_test_list = "";
     var current_user = "";
-    var id = get_url_vars()["id"];
+    var mental_test_id = get_url_vars()["id"];
   
     function set_bubbles() { 
       const allRanges = document.querySelectorAll(".sm-range-wrap");
@@ -225,8 +233,6 @@
         const range = wrap.querySelector(".sm-range");
         const bubble = wrap.querySelector(".sm-bubble");
   
-  
-        console.log("RANGE: " + range);  
         range.addEventListener("input", () => {
           setBubble(range, bubble);
         });
@@ -243,7 +249,6 @@
       bubble.innerHTML = val;
   
       // Sorta magic numbers based on size of the native UI thumb
-      //bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
       bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.10}px))`;
     }
   
@@ -286,8 +291,14 @@
   
   
     function add_mental_test(m, index) {
-      console.log("MENTAL TEST: " + m.name);
-      //mental_test_list += '<li><a href="
+      console.log("LOADING MENTAL TEST: " + m.name);
+      var active_class = "";
+      if (m.id == mental_test_id)
+        active_class = "is-active";
+      progress_bar_content += '<li class="' + active_class + '" data-step="' + index + '">' +
+      '<a href=/static/mental_test.html?id=' + m.id + '>' +
+      m.name + '</a>' +
+      '</li>'
     }
   
   
@@ -304,11 +315,17 @@
     $( document ).ready(function() {
       // Get questions
       console.log("Loading questions...");
-      $.getJSON(api_host + "/mental_test_results/" + id, function( data ) {
-        for (i = 0; i < data.length; i++) {
-          add_question(data[i].test_field, data[i].value, i + 1);
+      $.getJSON(api_host + "/mental_test_results/" + mental_test_id, function( data ) {
+        if(data[0].test_field === undefined) {
+          for (i = 0; i < data.length; i++) {
+            add_question(data[i], 0, i + 1);
+          }
         }
-  
+        else {
+          for (i = 0; i < data.length; i++) {
+            add_question(data[i].test_field, data[i].value, i + 1);
+          }
+        }
         current_user = data[0].current_user;
   
         //Add Questions to DOM
@@ -334,6 +351,7 @@
         for (i = 0; i < data.length; i++) {
           add_mental_test(data[i], i + 1);
         }
+        $("#progress-bar").html(progress_bar_content);
       });
     });
   
@@ -362,11 +380,10 @@
         qs = document.getElementById("question_range-" + i);
         post_data += '{' +
           '"user": "' + current_user + '"' +
-          ', "test": "' + id + '"' +
+          ', "test": "' + mental_test_id + '"' +
           ', "test_field": "' + qs.name + '"' +
           ', "value": "' + qs.value + '"' +
           '},';
-          console.log("--- POST_DATA: " + post_data);
       }
       post_data = post_data.replace(/,$/, "");
       post_data += "]";
@@ -405,7 +422,7 @@
     <div class="sm-slidecontainer">
   
       <!-- START PROGRESS BAR -->
-      <ol class="sm-progress">
+      <ol id="progress-bar" class="sm-progress">
         <li class="is-active" data-step="1">
           Test 1
         </li>
@@ -430,7 +447,7 @@
         <form id="mental_test" name="mental_test">
           <div id="test-container" class="row carousel slide" data-interval="false" data-ride="carousel">
 
-          <ol id="carousel-indicators" class="carousel-indicators" style="margin-bottom: -4%">
+          <ol id="carousel-indicators" class="carousel-indicators" style="margin-bottom: -2%">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="sm-carousel-indicator active"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="1" class="sm-carousel-indicator"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="2" class="sm-carousel-indicator"></li>
