@@ -42,7 +42,7 @@ class MentalTestViewSet(viewsets.ModelViewSet):
     """
     API endpoint for users
     """
-    queryset = MentalTest.objects.all().order_by('-id')
+    queryset = MentalTest.objects.all().order_by('id')
     serializer_class = MentalTestSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
 
@@ -84,7 +84,11 @@ class MentalTestResultsViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         queryset = MentalTestResult.objects.filter(user = self.request.user.id, test = kwargs['test']).order_by('id')
-        serializer = MentalTestResultSerializer(queryset, many=True, context={'request': request})
+        if len(queryset) > 0:
+            serializer = MentalTestResultSerializer(queryset, many=True, context={'request': request})
+        else:
+            queryset = MentalTestField.objects.filter(test = kwargs['test']).order_by('id')
+            serializer = MentalTestFieldSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
 
