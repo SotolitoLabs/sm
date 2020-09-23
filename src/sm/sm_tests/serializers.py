@@ -60,15 +60,20 @@ class MentalTestResultSerializer(serializers.ModelSerializer):
 
 
 
-class MentalTestFieldSerializer(serializers.HyperlinkedModelSerializer):
+class MentalTestFieldSerializer(serializers.ModelSerializer):
     """
         Serializer class for Mental Test Field
     """
 
     field_type = MentalTestFieldTypeSerializer()
+    current_user = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+        default=serializers.CurrentUserDefault()
+    )
+
     class Meta:
         model = MentalTestField
-        fields = ['url', 'id', 'test', 'name', 'description', 'field_type', 'weight']
+        fields = ['id', 'test', 'name', 'description', 'field_type', 'weight', 'current_user']
 
 
 
