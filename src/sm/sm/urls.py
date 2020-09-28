@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from rest_framework import routers
 from sm_tests import views
 
@@ -12,9 +12,9 @@ router.register(r'mental_test_result', views.MentalTestResultViewSet)
 router.register(r'mental_test_results', views.MentalTestResultsViewSet, basename='MentalTestResult')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api/admin/', admin.site.urls),
+    re_path(r'^api/', include(router.urls)),
+    path('api/api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 
 #urlpatterns = format_suffix_patterns(urlpatterns)
