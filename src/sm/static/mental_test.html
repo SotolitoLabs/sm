@@ -362,7 +362,7 @@ input[type=range]:focus::-ms-fill-upper {
   <!-- DATA -->
   <script language="javascript">
   <!--
-    var api_host = document.location.protocol + "//" + document.location.host;
+    var api_host = document.location.protocol + "//" + document.location.host + "/api";
     var data;
     var questions = "";
     var indicators = "";
@@ -547,7 +547,7 @@ input[type=range]:focus::-ms-fill-upper {
           'X-CSRFToken': csrf
         }
       });
-      $.post( "/mental_test_results/", post_data)
+      $.post(api_host + "/mental_test_results/", post_data)
       .fail(function(jqxhr, text, error) {
         console.log("Mental test failed: " + jqxhr.responseText);
         alert("Mental test failed: " + jqxhr.responseText);
