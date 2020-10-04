@@ -51,3 +51,33 @@ class MentalTestResult(models.Model):
 
     def __str__(self):
         return self.test_field.name + " :: " + self.user.username
+
+class Company(models.Model):
+    """
+        Users are part of companies
+    """
+    owner = models.ForeignKey('auth.User', on_delete=models.DO_NOTHING)
+    name  = models.CharField(max_length=255)
+    address = models.TextField(blank=True, null=True)
+    city = models.TextField(blank=True, null=True)
+    country = models.TextField(blank=True, null=True)
+    postal_code = models.TextField(blank=True, null=True)
+    phone = models.TextField(blank=True, null=True)
+    email = models.TextField(blank=True, null=True)
+    website = models.TextField(blank=True, null=True)
+    description =  models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Employee(models.Model):
+    """
+        Employee 
+    """
+    company = models.ForeignKey(Company, related_name='company', on_delete=models.DO_NOTHING)
+    user = models.OneToOneField('auth.User', related_name='employee', on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.user.username + " :: " + self.company.name
+
