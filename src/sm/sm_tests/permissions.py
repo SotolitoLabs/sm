@@ -36,7 +36,7 @@ class IsHRAdmin(permissions.BasePermission):
             Return true if the current user is in the 'hr_user' group
         """
 
-        if request.user.groups.filter(name='hr_user').exists():
+        if request.user.groups.filter(name='hr_admin').exists():
             return True
 
         return False
