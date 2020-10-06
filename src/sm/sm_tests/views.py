@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsHRAdmin, IsOwner
 from .models import (MentalTest, MentalTestField, MentalTestFieldType,
                      MentalTestResult)
 from .serializers import (UserSerializer, MentalTestSerializer,
@@ -29,7 +29,8 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwner | permissions.IsAdminUser]
 
     def perform_create(self, serializer):
         serializer.save(password=make_password(self.request.POST['password'], salt=None, hasher='default'))
@@ -44,7 +45,7 @@ class MentalTestViewSet(viewsets.ModelViewSet):
     """
     queryset = MentalTest.objects.all().order_by('id')
     serializer_class = MentalTestSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated | IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -71,7 +72,7 @@ class MentalTestResultViewSet(viewsets.ModelViewSet):
     """
     queryset = MentalTestResult.objects.all().order_by('-id')
     serializer_class = MentalTestResultSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated | IsHRAdmin]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -79,6 +80,7 @@ class MentalTestResultViewSet(viewsets.ModelViewSet):
 class MentalTestResultsViewSet(viewsets.ModelViewSet):
     queryset = MentalTestResult.objects.all().order_by('-id')
     serializer_class = MentalTestResultSerializer
+    permission_classes = [permissions.IsAuthenticated & (IsHRAdmin | IsOwner)]
     lookup_field = "test"
     user = ""
 
