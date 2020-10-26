@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    # COMMENTED FOR NOW THIS HAS TO BE ENABLED 'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -105,10 +106,20 @@ WSGI_APPLICATION = 'sm.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'development': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
+
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': LOCAL_STAGE_DATABASE_NAME,
+        'USER': LOCAL_STAGE_DATABASE_USER,
+        'PASSWORD': LOCAL_STAGE_DATABASE_PASSWORD,
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    },
+
 
     'stage': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -154,7 +165,11 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    # DESHABILITADO PARA DEMO 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #    'rest_framework.authentication.TokenAuthentication',
+    #],
+
 }
 
 # Internationalization
