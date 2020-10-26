@@ -1,0 +1,365 @@
+    body {
+      /*font-family: 'Montserrat';font-size: 16px; color:#d75c37;*/
+      font-family: 'Montserrat';font-size: 16px; color:black;
+      font-weight: 600;
+      /*background-color: lightgray;*/
+      background-color: #73fbe3;
+      background-size: 25%;
+    }
+
+   .d-body {
+      font-family: 'Montserrat';font-size: 16px; color:black;
+      font-weight: 600;
+      background-color: #73fbe3;
+      background-size: 25%;
+    }
+
+    .d-menu-text {
+      font-family: 'Montserrat';font-size: medium; color:black !important;
+    }
+
+    .d-menu-text a {
+      font-family: 'Montserrat';font-size: medium; color:black !important;
+    }
+
+    .d-footer-text {
+      font-family: 'Montserrat';font-size: small; color:black !important;
+    }
+
+    .d-footer-text a {
+      font-family: 'Montserrat';font-size: small; color:black !important;
+    }
+
+
+    .d-no-box-shadow {
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+     }
+
+
+    .sm-test-name-title {
+      font-weight: 800;
+    }
+
+    .sm-slidecontainer {
+      width: 85%;
+      margin-top: 4%;
+      text-align:center;
+      padding-left: 15%;
+    }
+    
+    .sm-slider {
+      -webkit-appearance: none;
+      width: 50%;
+      height: 70%;
+      background: lightslategray; 
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+      border-radius: 15px;
+    }
+
+   
+    .sm-slider:hover {
+      opacity: 1;
+    }
+    
+    .sm-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 60px;
+      height: 60px;
+      background: grey;
+      background-repeat:no-repeat;
+      background-size:cover;
+      cursor: pointer;
+      border-radius: 30px;
+
+      box-shadow: 1px 1px 1px #828282;
+      border: 1px solid #8A8A8A;
+      border-radius: 6px;
+      background: #DADADA;
+    }
+    
+    .sm-slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      background: black;
+      cursor: pointer;
+    }
+ 
+
+
+
+
+/* TEST range format */
+
+
+
+
+/*input[type=range] {
+  height: 50px;
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+}*/
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000;
+  background: #B6B6B6;
+  border-radius: 25px;
+  border: 1px solid #8A8A8A;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #828282;
+  border: 1px solid #8A8A8A;
+  height: 150%;
+  width: 5%;
+  border-radius: 6px;
+  /*background: #DADADA;*/
+  background: black;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -5px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #B6B6B6;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000;
+  background: #B6B6B6;
+  border-radius: 25px;
+  border: 1px solid #8A8A8A;
+}
+input[type=range]::-moz-range-thumb {
+  /*box-shadow: 1px 1px 1px #828282;*/
+  box-shadow: 1px 1px 1px white;
+  border: 1px solid #8A8A8A;
+  height: 150%;
+  width: 5%;
+  border-radius: 6px;
+  background: black;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 16px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #B6B6B6;
+  border: 1px solid #8A8A8A;
+  border-radius: 50px;
+  box-shadow: 0px 0px 0px #000000;
+}
+input[type=range]::-ms-fill-upper {
+  background: #B6B6B6;
+  border: 1px solid #8A8A8A;
+  border-radius: 50px;
+  box-shadow: 0px 0px 0px #000000;
+}
+input[type=range]::-ms-thumb {
+  margin-top: 1px;
+  box-shadow: 1px 1px 1px #828282;
+  border: 1px solid #8A8A8A;
+  height: 150%;
+  width: 5%;
+  border-radius: 6px;
+  background: black;
+  cursor: pointer;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #B6B6B6;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #B6B6B6;
+}
+
+
+/* ends range format */
+   
+    .sm-button {
+      width: 10%;
+      /*background-color:darkslategray;*/
+      background-color: black;
+      border: none;
+      color: white;
+      padding: 4px 1%;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 60px 2px;
+      cursor: pointer;
+      border-radius: 11px;
+    }
+    
+    .sm-range-wrap {
+      position: relative;
+      /*margin: 100;*/
+    }
+    .sm-range {
+      width: 100%;
+    }
+    .sm-bubble {
+      background: black;
+      color: white;
+      padding: 4px 12px;
+      position: absolute;
+      border-radius: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 30%;
+    }
+    
+    .sm-progress {
+      list-style: none;
+      margin: 0;
+      /*margin-bottom: 70px;*/
+      padding: 0;
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+      color: #849397;
+    }
+    
+    .sm-progress > li {
+      position: relative;
+      display: table-cell;
+      text-align: center;
+      font-size: 0.8em;
+    }
+    
+
+    .sm-progress > li > a {
+      color: inherit; /* blue colors for links too */
+      text-decoration: inherit; /* no underline */
+     }
+
+
+    .sm-progress > li:before {
+      content: attr(data-step);
+      display: block;
+      margin: 0 auto;
+      /*background: #DFE3E4;*/
+      background: #60d4bf;
+      width: 3em;
+      height: 3em;
+      text-align: center;
+      margin-bottom: 0.25em;
+      line-height: 3em;
+      border-radius: 100%;
+      position: relative;
+      z-index: 1000;
+    }
+    
+    .sm-progress > li:after {
+      content: '';
+      position: absolute;
+      display: block;
+      background: #DFE3E4;
+      width: 100%;
+      height: 0.5em;
+      top: 1.25em;
+      left: 50%;
+      margin-left: 1.5em\9;
+      z-index: -1;
+      background-color: #62d4bb;
+    }
+    
+
+     /* Deletes the right line of the last element */
+    .sm-progress > li:last-child:after {
+      display: none;
+      color: #fbff79;
+    }
+    
+    /* Does not do anything noticeable */
+    .sm-progress > li.is-complete {
+      color: #2ECC71;
+    }
+    
+    /* Does not do anything noticeable */
+    .sm-progress > li.is-complete:before, .progress > li.is-complete:after {
+      color: #FFF;
+      background: #2ECC71;
+    }
+    
+    .sm-progress > li.is-active {
+      color: black;
+    }
+    
+    .sm-progress > li.is-active:before {
+      color: #FFF;
+      background: black;
+    }
+    
+    /**
+     * Needed for IE8
+     */
+    .sm-progress__last:after {
+      display: none !important;
+    }
+    
+    /**
+     * Size Extensions
+     */
+    .sm-progress--medium {
+      font-size: 1.5em;
+    }
+    
+    .sm-progress--large {
+      font-size: 2em;
+    }
+
+    .sm-carousel-indicator {
+      background-color: black !important;
+    }
+
+    .sm-carousel-control, .carousel-control-prev-icon, .carousel-control-next-icon {
+      color: black;
+      width: 60% !important;
+      height: 100% !important;
+
+    }
+
+    .sm-header {
+      height: 10%;
+      padding-left: 1%;
+      padding-top: 1%;
+    }
+    .sm-header-title {
+      font-weight: 800;
+      letter-spacing: -0.1em;
+    }
+
+    .d-header-title {
+      font-size: 3rem !important;
+    }
+
+
+    .sm-header-img {
+      width: 4%;
+    }
+
+    .d-sidebar-img {
+      width: 25%;
+    }
+
