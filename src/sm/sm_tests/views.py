@@ -12,7 +12,6 @@ from .models import (MentalTest, MentalTestField, MentalTestFieldType,
 from .serializers import (UserSerializer, MentalTestSerializer,
                           MentalTestFieldSerializer, MentalTestFieldTypeSerializer,
                           MentalTestResultSerializer, MentalTestResultCreateSerializer)
-from .renderers import PlainTextRenderer
 from rest_framework.renderers import (BrowsableAPIRenderer, JSONRenderer, AdminRenderer,
                                      TemplateHTMLRenderer)
 
@@ -80,7 +79,8 @@ class MentalTestResultViewSet(viewsets.ModelViewSet):
 class MentalTestResultsViewSet(viewsets.ModelViewSet):
     queryset = MentalTestResult.objects.all().order_by('-id')
     serializer_class = MentalTestResultSerializer
-    permission_classes = [permissions.IsAuthenticated & (IsHRAdmin | IsOwner)]
+    #permission_classes = [permissions.IsAuthenticated & (IsHRAdmin | IsOwner)]
+    permission_classes = [permissions.IsAuthenticated]
     lookup_field = "test"
     user = ""
 
