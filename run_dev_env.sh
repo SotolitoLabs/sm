@@ -9,8 +9,6 @@ SUPERUSER_EMAIL="info@sotolitolabs.com"
 SUPERUSER_PW="prueba123"
 
 
-exit
-
 pod=$(podman pod ps --format '{{.Name}}' --filter "name=django-env")
 
 if [[ ${pod} == "django-env" ]]; then
@@ -25,7 +23,6 @@ fi
 if [[ "${2}" != "" ]]; then
     SUPERUSER_PW=$2
 fi
-
 
 function wait_for_postgres {
     ready=""
