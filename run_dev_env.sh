@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PODS="infra/pods"
-HOST="local"
+HOST="localhost"
 CONTAINER="django-rest"
 WAIT_TIME=10
 SUPERUSER_NAME="sotolito_admin"
@@ -11,7 +11,7 @@ SUPERUSER_PW="prueba123"
 
 pod=$(podman pod ps --format '{{.Name}}' --filter "name=django-env")
 
-if [[ ${pod} == "django-env" ]]; then
+if [[ "${pod}" == "django-env" ]]; then
   echo "Development environment already running, use ./stop_dev_env.sh to stop it or cleanup"
   exit
 fi
@@ -28,14 +28,20 @@ function wait_for_postgres {
     ready=""
     while [[ ${ready} != *"accepting connections"* ]]; do
       ready=$(podman exec -ti django-postgres /usr/bin/pg_isready 2>&1)
+      echo "READY: ${ready}"
       echo -n "."
     done
     echo
     echo "PostgreSQL database ready"
 }
 
-echo "Starting development environment for $1"
+echo "Starting development environment for ${HOST}"
 podman play kube ${PODS}/django-env-${HOST}.yaml
+
+if [[ $? != 0 ]]; then
+    echo "Error creating pod $!"
+    exit
+fi
 
 echo "Checking pods:"
 podman pod ps
