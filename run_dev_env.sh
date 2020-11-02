@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# (c) 2020 SotolitoLabs
+# Iván Chavero <ichavero@chavero.com.mx>
+# 
+# This program runs a podman/kubernetes manifest from a directory
+# the it will concatenate the first argument to the MANIFEST_PREFIX
+# variable tha will complete the manifest name
+# The second argument will set the django superuser password
+
+
+
+MANIFEST_PREFIX="django-env"
 PODS="infra/pods"
 HOST="localhost"
 CONTAINER="django-rest"
@@ -11,6 +22,13 @@ PG_CONTAINER="django-postgres"
 DEBUG=false
 
 pod=$(podman pod ps --format '{{.Name}}' --filter "name=django-env")
+
+if [[ "${1}" == "--help" ]]; then
+    echo "Usage: $0 <manifest hostname> <django superuser password>"
+    exit
+fi
+
+
 
 if [[ "${pod}" == "django-env" ]]; then
   echo "Development environment already running, use ./stop_dev_env.sh to stop it or cleanup"
@@ -39,7 +57,7 @@ function wait_for_postgres {
 }
 
 echo "Starting development environment for ${HOST}"
-podman play kube ${PODS}/django-env-${HOST}.yaml
+podman play kube ${PODS}/${MANIFEST_PREFIX}-${HOST}.yaml
 
 if [[ $? != 0 ]]; then
     echo "Error creating pod $!"
