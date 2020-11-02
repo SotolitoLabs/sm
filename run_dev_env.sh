@@ -7,7 +7,8 @@ WAIT_TIME=10
 SUPERUSER_NAME="sotolito_admin"
 SUPERUSER_EMAIL="info@sotolitolabs.com"
 SUPERUSER_PW="prueba123"
-
+PG_CONTAINER="django-postgres"
+DEBUG=false
 
 pod=$(podman pod ps --format '{{.Name}}' --filter "name=django-env")
 
@@ -27,8 +28,10 @@ fi
 function wait_for_postgres {
     ready=""
     while [[ ${ready} != *"accepting connections"* ]]; do
-      ready=$(podman exec -ti django-postgres /usr/bin/pg_isready 2>&1)
-      echo "READY: ${ready}"
+        ready=$(podman exec -ti ${PG_CONTAINER} /usr/bin/pg_isready 2>&1)
+        if [[ ${DEBUG} == true ]]; then
+            echo "READY: ${ready}"
+        fi
       echo -n "."
     done
     echo
@@ -50,6 +53,10 @@ echo "Checking containers"
 podman ps -a --format '{{ .ID }} {{ .Names }}  {{ .Ports }} {{ .Pod }}'
 
 echo "Waiting for the database to come up"
+
+# Get the container name because in some systems the pod name gets concatenated
+# to the container name
+PG_CONTAINER=$(podman ps --filter 'name=postgres' --format '{{.Names}}')
 wait_for_postgres
 
 echo "Running migrations"
