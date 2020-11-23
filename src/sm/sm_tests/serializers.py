@@ -10,7 +10,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     """
     class Meta:
         model = User
-        fields = ['url', 'id', 'username', 'first_name', 'last_name', 'password', 'email', 'groups']
+        #fields = ['url', 'id', 'username', 'first_name', 'last_name', 'password', 'email', 'groups']
+        fields = ['url', 'id', 'username', 'first_name', 'last_name', 'password', 'email']
 
 
 class MentalTestFieldTypeSerializer(serializers.HyperlinkedModelSerializer):
