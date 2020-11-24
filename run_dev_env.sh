@@ -13,13 +13,14 @@
 MANIFEST_PREFIX="django-env"
 PODS="infra/pods"
 HOST="localhost"
-CONTAINER="django-rest"
 WAIT_TIME=10
 SUPERUSER_NAME="sotolito_admin"
 SUPERUSER_EMAIL="info@sotolitolabs.com"
 SUPERUSER_PW="prueba123"
-PG_CONTAINER="django-postgres"
 DEBUG=false
+PG_CONTAINER="django-postgres"
+DJANGO_CONTAINER="django-rest"
+
 
 pod=$(podman pod ps --format '{{.Name}}' --filter "name=django-env")
 
@@ -27,7 +28,6 @@ if [[ "${1}" == "--help" ]]; then
     echo "Usage: $0 <manifest hostname> <django superuser password>"
     exit
 fi
-
 
 
 if [[ "${pod}" == "django-env" ]]; then
@@ -59,6 +59,9 @@ function wait_for_postgres {
 echo "Starting development environment for ${HOST}"
 podman play kube ${PODS}/${MANIFEST_PREFIX}-${HOST}.yaml
 
+PG_CONTAINER=$(podman ps --format '{{.Names}}' --filter "name=postgres")
+DJANGO_CONTAINER=$(podman ps --format '{{.Names}}' --filter "name=django-rest")
+
 if [[ $? != 0 ]]; then
     echo "Error creating pod $!"
     exit
@@ -77,11 +80,14 @@ echo "Waiting for the database to come up"
 PG_CONTAINER=$(podman ps --filter 'name=postgres' --format '{{.Names}}')
 wait_for_postgres
 
-echo "Running migrations"
-podman exec -ti ${CONTAINER} /code/sm/manage.py migrate
+
+
+echo "DJANGO: $DJANGO_CONTAINER"
+echo "Running migrations in ${DJANGO_CONTAINER}"
+podman exec -ti ${DJANGO_CONTAINER} /code/sm/manage.py migrate
 
 echo "Creating superuser"
-res=$(podman exec -e "DJANGO_SUPERUSER_PASSWORD=${SUPERUSER_PW}" -ti ${CONTAINER} /code/sm/manage.py createsuperuser  --no-input --username=${SUPERUSER_NAME} --email=${SUPERUSER_EMAIL} 2>&1)
+res=$(podman exec -e "DJANGO_SUPERUSER_PASSWORD=${SUPERUSER_PW}" -ti ${DJANGO_CONTAINER} /code/sm/manage.py createsuperuser  --no-input --username=${SUPERUSER_NAME} --email=${SUPERUSER_EMAIL} 2>&1)
 
 if [[ ${res} == *"successfully"* ]]; then
   echo $res
