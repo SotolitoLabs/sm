@@ -12,18 +12,24 @@ var current_question = 0;
 var total_questions = 0;
 var mental_test_list = "";
 var current_user = "";
+var current_test_name = "NO CURRENT TEST AVAILABLE";
 var mental_test_id = get_url_vars()["id"];
+var DEFAULT_MENTAL_TEST_ID = 2;
 
 if (typeof mental_test_id === 'undefined') {
-  alert("Using default mental test");
-  mental_test_id = 1;
+  mental_test_id = DEFAULT_MENTAL_TEST_ID; //TODO get this from a service
 }
  
-
+//https://github.com/jpillora/jquery.rest/blob/gh-pages/dist/jquery.rest.js
 // Initialize REST API Client
-var client = new $.RestClient('/api/', { stringifyData: true }, headers: {"Authorization": localStorage.getItem('token')});
+//var client = new $.RestClient('/api/', { stringifyData: true },  headers: { "Authorization": localStorage.getItem('token') });
+var client = new $.RestClient('/api/', { stringifyData: true });
+//client.opts.ajax.Authorization=localStorage.getItem('token');
+//client.opts.ajax.ajaxOpts.headers['Authorization']=localStorage.getItem('TEST');
+
 client.add('mental_test_results'); // tests with results
 client.add('mental_test'); // test list
+
 
  
 function set_bubbles() { 
@@ -88,11 +94,15 @@ function add_question(tf, tf_value, index) {
 
 
 function add_mental_test(m, index) {
-  console.log("LOADING MENTAL TEST: " + m.name);
+  index += DEFAULT_MENTAL_TEST_ID;
+  console.log("DEBUG::LOADING MENTAL TEST " + m.id + ": " + m.name);
+
   var active_class = "";
-  if (m.id == mental_test_id)
+  if (m.id == mental_test_id) {
+    current_test_name = m.name;
     active_class = "is-active";
-  progress_bar_content += `<li class=${active_class}" data-step="${index}">
+  }
+  progress_bar_content += `<li class="${active_class}" data-step="${index}">
   <a href=/static/mental_test.html?id=${m.id}>${m.name}</a>
   </li>`;
 }
@@ -126,37 +136,34 @@ function show_next_question() {
   
   
 function serialize_question() {
-  data = "";
+  data = [];
   for(i = 1; i <= total_questions; i++) {
     qs = document.getElementById("question_range-" + i);
-    data += 
-    `{
-      "user": "${current_user}",
-      "test": "${mental_test_id}",
-      "test_field": "${qs.name}",
-      "value": "${qs.value}",
-     },`;
+    data.push(
+      {
+        "user":       current_user,
+        "test":       mental_test_id,
+        "test_field": qs.name,
+        "value":      qs.value,
+       }
+     );
   }
-  //post_data = post_data.replace(/,$/, "");
-
-  post_data = `[
-    ${data}
-  ]`;
-  return post_data;
+  return data;
 }
   
   
 function send_mental_test(f) {
   post_data = serialize_question();
-  csrf = Cookies.get("csrftoken");
+  //TODO: csrf = Cookies.get("csrftoken");
   $.ajaxSetup({
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'X-CSRFToken': csrf
+      'Authorization': 'Token ' + token
+      //'X-CSRFToken': csrf
     }
   });
-  $.post(api_host + "/mental_test_results/", post_data)
+  $.post(api_host + "/mental_test_results/", JSON.stringify(post_data))
   .fail(function(jqxhr, text, error) {
     console.log("Mental test failed: " + jqxhr.responseText);
     alert("Mental test failed: " + jqxhr.responseText);
