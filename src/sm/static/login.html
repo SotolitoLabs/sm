@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
   <!-- Google Fonts Roboto -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&display=swap" rel="stylesheet">
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- Material Design Bootstrap -->
@@ -21,6 +22,8 @@
 
   <script src="/static/js/jquery.min.js"></script>
    <!-- Adapp Stuff -->
+   <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+   <script src="/static/js/jquery.rest.js"></script>
    <script src="/static/js/adapp/default.js"></script>
    <script src="/static/js/adapp/auth.js"></script>
    <!-- /Adapp Stuff -->
@@ -40,15 +43,17 @@
 
   <script>
     <!--
-    get_token("prueba_user", "prueba123");
+    function login(username, password) {
+      get_token(username, password);
+    }
     //-->
   </script>
 
   <!-- Email -->
-  <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Correo">
+  <input type="text" id="username" name="username" class="form-control mb-4" placeholder="Usuario">
 
   <!-- Password -->
-  <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Contraseña">
+  <input type="password" id="password" name="password" class="form-control mb-4" placeholder="Contraseña">
 
   <div class="d-flex justify-content-around">
       <div>
@@ -65,7 +70,7 @@
           <br /><a href="">¿Olvidó su contraseña?</a>
 
   <!-- Sign in button -->
-  <button class="btn btn-info btn-block my-4" type="submit" onclick="window.location.href='user_test_select.html'">Ingresar</button>
+  <button class="btn btn-info btn-block my-4" type="submit" onclick="login(this.form.username.value, this.form.password.value)">Ingresar</button>
 
 </form>
 <!-- Default form login -->
@@ -112,7 +117,7 @@ Links etc 2
   <!-- Footer Links -->
 
   <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2020 Copyright: SaludMental
+  <div class="footer-copyright text-center py-3">© 2020 Copyright: Adapp
   </div>
   <!-- Copyright -->
 

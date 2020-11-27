@@ -6,14 +6,18 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
-from .permissions import IsOwnerOrReadOnly, IsHRAdmin, IsOwner
+from .permissions import (IsOwnerOrReadOnly, IsHRAdmin, 
+        IsOwner)
+
 from .models import (MentalTest, MentalTestField, MentalTestFieldType,
-                     MentalTestResult)
+        MentalTestResult)
+
 from .serializers import (UserSerializer, MentalTestSerializer,
-                          MentalTestFieldSerializer, MentalTestFieldTypeSerializer,
-                          MentalTestResultSerializer, MentalTestResultCreateSerializer)
+        MentalTestFieldSerializer, MentalTestFieldTypeSerializer,
+        MentalTestResultSerializer, MentalTestResultCreateSerializer)
+
 from rest_framework.renderers import (BrowsableAPIRenderer, JSONRenderer, AdminRenderer,
-                                     TemplateHTMLRenderer)
+        TemplateHTMLRenderer)
 
 
 from rest_framework.request import Request
@@ -28,8 +32,8 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-    permission_classes = [IsOwner | permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [IsOwner | permissions.IsAdminUser]
 
     def perform_create(self, serializer):
         serializer.save(password=make_password(self.request.POST['password'], salt=None, hasher='default'))
@@ -71,7 +75,8 @@ class MentalTestResultViewSet(viewsets.ModelViewSet):
     """
     queryset = MentalTestResult.objects.all().order_by('-id')
     serializer_class = MentalTestResultSerializer
-    permission_classes = [permissions.IsAuthenticated | IsHRAdmin]
+    #permission_classes = [permissions.IsAuthenticated | IsHRAdmin]
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
