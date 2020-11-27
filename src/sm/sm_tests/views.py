@@ -75,7 +75,8 @@ class MentalTestResultViewSet(viewsets.ModelViewSet):
     """
     queryset = MentalTestResult.objects.all().order_by('-id')
     serializer_class = MentalTestResultSerializer
-    permission_classes = [permissions.IsAuthenticated | IsHRAdmin]
+    #permission_classes = [permissions.IsAuthenticated | IsHRAdmin]
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
