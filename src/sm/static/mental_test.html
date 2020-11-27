@@ -65,7 +65,6 @@
         current_user = data[0].current_user;
   
         //Add Questions to DOM
-        $("#test-name").html(data[0].test.name);
         $("#test-questions").html(questions);
         $("#question-1").addClass('active');
         $("#carousel-indicators").html(indicators);
@@ -89,9 +88,10 @@
       console.log("Loading Mental Test list...");
       client.mental_test.read().done(function( data ) {
         for (i = 0; i < data.length; i++) {
-          add_mental_test(data[i], i + 1);
+          add_mental_test(data[i], i);
         }
         $("#progress-bar").html(progress_bar_content);
+        $("#test-name").html(current_test_name);
       });
     });
   
