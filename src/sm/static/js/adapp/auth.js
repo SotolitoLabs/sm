@@ -1,17 +1,22 @@
+// Authentication module for adapp
+// (c) 2020 Ivan Chavero ichavero@chavero.com.mx
+// (c) 2020 SotolitoLabs
 
 // Our auth token
-var token = Cookies.get("token");
-alert("AUTH.JS TOKEN: " + token);
+var token = localStorage.getItem('token');
+if( (client != undefined) && (token != null) ) {
+  client.opts.ajax = {
+    headers: { Authorization: "Token " + token }
+  };
+}
 
 function login(username, password) {
   get_token(username, password);
 }
 
-
 function set_auth_info(token) {
-  Cookies.set('token', token);
+  localStorage.setItem('token', token);
 }
-
 
 function get_token(user, password) {
   console.log("Getting Token");
