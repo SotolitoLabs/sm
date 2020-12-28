@@ -8,6 +8,7 @@ var data;
 var questions = "";
 var indicators = "";
 var progress_bar_content = "";
+var progress_bar_content_diagnosis = "";
 var current_question = 0;
 var total_questions = 0;
 var mental_test_list = "";
@@ -29,7 +30,8 @@ var client = new $.RestClient('/api/', { stringifyData: true });
 
 client.add('mental_test_results'); // tests with results
 client.add('mental_test'); // test list
-
+client.add('mental_test_diagnose'); // test diagnostics
+client.add('mental_test_diagnose_result'); // ALL test diagnostics
 
  
 function set_bubbles() { 
@@ -95,7 +97,6 @@ function add_question(tf, tf_value, index) {
 
 function add_mental_test(m, index) {
   index += DEFAULT_MENTAL_TEST_ID;
-  console.log("DEBUG::LOADING MENTAL TEST " + m.id + ": " + m.name);
 
   var active_class = "";
   if (m.id == mental_test_id) {
@@ -106,7 +107,23 @@ function add_mental_test(m, index) {
   <a href=/static/mental_test.html?id=${m.id}>${m.name}</a>
   </li>`;
 }
-  
+ 
+
+function add_mental_test_diagnosis(m, index) {
+  index += DEFAULT_MENTAL_TEST_ID;
+  console.log("DEBUG::LOADING MENTAL TEST " + m.id + ": " + m.name);
+
+  var active_class = "";
+  if (m.id == mental_test_id) {
+    current_test_name = m.name;
+    active_class = "is-active";
+  }
+  progress_bar_content_diagnosis += `<li class="${active_class}" data-step="${index}">
+  <a href=/static/mental_test_diagnosis.html?id=${m.id}>${m.name}</a>
+  </li>`;
+}
+ 
+
   
 function set_question(slider) {
   output = document.getElementById("output-" + slider.name);
@@ -173,3 +190,26 @@ function send_mental_test(f) {
   });
 }
 
+function diagnose_test(f) {
+  //Update test
+  send_mental_test(f);
+  //var diagnose_data = {};
+  // Get mental tests diagnosis
+  console.log("Starting diagnose procedure...");
+  d = {
+        "test": mental_test_id,
+      };
+ 
+  client.mental_test_diagnose_result.create(d)
+  .fail(function(jqxhr, text, error) {
+    console.log("Mental test diagnosis failed: " + jqxhr.responseText);
+    alert("Mental test diagnosis failed: " + jqxhr.responseText);
+  })
+  .done(function( data ) {
+    alert(data);
+    //window.location.href="/mental_test_diagnosis.html?id=" + mental_test_id;
+  });
+
+  console.log("DIAGNOSE DATA: " + JSON.stringify(diagnose_data));
+  return(diagnose_data);
+}

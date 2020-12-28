@@ -1,0 +1,146 @@
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Adapp :: Tamices</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" href="css/mdb.min.css">
+  <!-- Your custom styles (optional) -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/adapp.css">
+  
+  
+  
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&display=swap" rel="stylesheet"> 
+  
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/popper.min.js"></script>
+<!--  <script src="/static/rest_framework/js/ajax-form.js"></script> -->
+  <script src="/static/rest_framework/js/csrf.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <!-- <script src="/static/rest_framework/js/prettify-min.js"></script> -->
+  <!-- <script src="/static/rest_framework/js/default.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+
+  <!-- Adapp Stuff -->
+  <script src="/static/js/jquery.rest.js"></script>
+  <script src="/static/js/modules/chart.js"></script>
+  <script src="/static/js/adapp/default.js"></script>
+  <script src="/static/js/adapp/auth.js"></script>
+  <!-- /Adapp Stuff -->
+  
+  
+  <style>
+
+  </style>
+  
+  <!-- DATA -->
+  <script language="javascript">
+  <!--
+ 
+    var chart_data = [];
+    var mental_test_labels = []; 
+    var mental_test_chart_data_set = []; 
+
+    function set_chart_data(mtid, test_label, total_tests) {
+      client.mental_test_diagnoses.read(mtid)
+      .fail(function(jqxhr, text, error) {
+        console.log("Mental test diagnosis failed: " + jqxhr.responseText);
+        alert("Mental test diagnosis failed: " + jqxhr.responseText);
+      })
+      .done(function( data ) {
+        if( !data.includes('Error') ) {
+          d = JSON.parse(data);
+          console.log("ADDING to chart_data: " + data);
+          mental_test_labels.push(test_label);
+          mental_test_chart_data_set.push(d.diagnosed_value);
+          chart_data.push(d);
+        }
+        
+
+      });
+    }
+
+ 
+    function add_radar_chart() {
+        // Radar Chart
+        console.log("CHART: LABELS: " + mental_test_labels);
+        console.log("CHART: DATA SET: " + mental_test_chart_data_set);
+ 
+        var ctxR = document.getElementById("radarChart").getContext('2d');
+        var myRadarChart = new Chart(ctxR, {
+          type: 'radar',
+          data: {
+            labels: mental_test_labels,
+            
+            datasets: 
+              [
+                {
+                  label: "Resultados de Evaluación",
+                  data: mental_test_chart_data_set,
+                  backgroundColor: [
+                  'rgba(105, 0, 132, .2)',
+                  ],
+                  borderColor: [
+                    'rgba(200, 99, 132, .7)',
+                  ],
+                  borderWidth: 2
+                },
+             ], 
+
+            options: {
+              responsive: true
+            }
+          }
+      });
+    }
+
+    // Load questions
+    $( document ).ready(function() {
+      // Get questions
+      console.log("Loading diagnosis...");
+      // Get mental tests
+      console.log("Loading Mental Test list...");
+      client.mental_test.read().done(function( data ) {
+        for (i = 0; i < data.length; i++) {
+          set_chart_data(i + DEFAULT_MENTAL_TEST_ID, data[i].name);
+        }
+        //Create the radar chart when the last element has been loaded
+        var el = document.getElementById("chart_flag"); 
+        el.addEventListener("click", add_radar_chart();, false); 
+      });
+    });
+ 
+
+ 
+     // -->
+    </script>
+    <!-- /DATA -->
+  
+  
+  
+  </head>
+  <body>
+    <div class="sm-header">
+        <h1 class="sm-header-title"><img class="sm-header-img" src="/static/img/adapp_logo1.png">&nbsp;adapp</h1><a style="color: black" href="/api/api-auth/logout/?next=/mental_test.html?id=1">Salir</a>
+    </div>  
+
+
+    <div class="sm-slidecontainer">
+  
+  
+      <!-- START CHART -->
+      <div class="mt-5 container-fluid">
+        <h1 class="sm-test-name-title" id="test-name">Resultados de Evaluación</h1>
+        <canvas id="radarChart"></canvas>
+      </div>
+      <!-- /END CHART -->
+  
+    </div>
+  </body>
+</html>

@@ -1,0 +1,144 @@
+<html>
+  <head>
+  <title>Adapp :: Tamices</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" href="css/mdb.min.css">
+  <!-- Your custom styles (optional) -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/adapp.css">
+  
+  
+  
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&display=swap" rel="stylesheet"> 
+  
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/popper.min.js"></script>
+<!--  <script src="/static/rest_framework/js/ajax-form.js"></script> -->
+  <script src="/static/rest_framework/js/csrf.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <!-- <script src="/static/rest_framework/js/prettify-min.js"></script> -->
+  <!-- <script src="/static/rest_framework/js/default.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+
+  <!-- Adapp Stuff -->
+  <script src="/static/js/jquery.rest.js"></script>
+  <script src="/static/js/modules/chart.js"></script>
+  <script src="/static/js/adapp/default.js"></script>
+  <script src="/static/js/adapp/auth.js"></script>
+  <!-- /Adapp Stuff -->
+  
+  
+  <style>
+
+  </style>
+  
+  <!-- DATA -->
+  <script language="javascript">
+  <!--
+ 
+    var chart_data = {};
+    // Load questions
+    $( document ).ready(function() {
+      // Get questions
+      console.log("Loading diagnosis...");
+
+      client.mental_test_diagnose_result.read(mental_test_id)
+      .fail(function(jqxhr, text, error) {
+        console.log("Mental test diagnosis failed: " + jqxhr.responseText);
+        alert("Mental test diagnosis failed: " + jqxhr.responseText);
+      })
+      .done(function( data ) {
+        console.log("DATA: " + data);
+        chart_data = JSON.parse(data);
+        console.log("DIAGNOSE VALUE: " + chart_data.diagnosed_value);
+        console.log("MAX DIAGNOSE VALUE: " + chart_data.max_diagnose_value);
+
+        
+        yellow_diagnosed_value = chart_data.diagnosed_value * 100 / chart_data.max_diagnose_value;
+        green_diagnosed_value =  (chart_data.max_diagnose_value - chart_data.diagnosed_value) * 100 / chart_data.max_diagnose_value;
+        red_diagnosed_value = yellow_diagnosed_value - green_diagnosed_value;
+        //doughnut
+        // we need this one
+        https://medium.com/@ganesh.kalal/build-a-speedometer-gauge-using-gauge-js-fba5d3976023
+        var ctxD = document.getElementById("doughnutChart").getContext('2d');
+        var myLineChart = new Chart(ctxD, {
+          type: 'doughnut',
+          data: {
+            labels: ["", "", ""],
+            datasets: [{
+              data: [green_diagnosed_value, yellow_diagnosed_value, red_diagnosed_value],
+                                // green    // yellow  // red
+              backgroundColor: ["#28a745", "#ffc107", "#dc3545"],
+              hoverBackgroundColor: ["#66d27f", "#f4d576", "#f97783"]
+            }]
+          },
+          options: {
+            responsive: true
+          }
+        });
+
+      });
+
+
+       
+      // Get mental tests
+      console.log("Loading Mental Test list...");
+      client.mental_test.read().done(function( data ) {
+        for (i = 0; i < data.length; i++) {
+          add_mental_test_diagnosis(data[i], i);
+        }
+        $("#progress-bar").html(progress_bar_content_diagnosis); //FIX!!!
+        $("#test-name").html(current_test_name);
+      });
+    });
+  
+  
+     // -->
+    </script>
+    <!-- /DATA -->
+  
+  
+  
+  </head>
+  <body>
+    <div class="sm-header">
+        <h1 class="sm-header-title"><img class="sm-header-img" src="/static/img/adapp_logo1.png">&nbsp;adapp</h1><a style="color: black" href="/api/api-auth/logout/?next=/mental_test.html?id=1">Salir</a>
+    </div>  
+
+
+    <div class="sm-slidecontainer">
+  
+      <!-- START PROGRESS BAR -->
+      <ol id="progress-bar" class="sm-progress">
+        <li class="is-active" data-step="1">
+          Test 1
+        </li>
+        <li data-step="2">
+          Test 2
+        </li>
+        <li data-step="3">
+          Test 3
+        </li>    
+        <li data-step="4" class="progress__last">
+          Test 4
+        </li>
+      </ol>
+      <!-- /FINISH PROGRESS BAR -->
+    
+  
+      <!-- START CHART -->
+      <div class="mt-5 container-fluid">
+        <h1 class="sm-test-name-title" id="test-name"><a style="color: black" href="/api/api-auth/login/?next=/mental_test.html?id=1">Loading...</a></h1>
+        <canvas id="doughnutChart"></canvas>  
+      </div>
+      <!-- /END CHART -->
+  
+    </div>
+  </body>
+</html>

@@ -131,7 +131,7 @@
   
       <!-- START QUESTIONS -->
       <div class="mt-5 container-fluid">
-          <h1 class="sm-test-name-title" id="test-name"><a style="color: black" href="/api/api-auth/login/?next=/mental_test.html?id=1">Login</a></h1>
+          <h1 class="sm-test-name-title" id="test-name"><a style="color: black" href="/api/api-auth/login/?next=/mental_test.html?id=1">Loading...</a></h1>
         <input type="hidden" id="current_user" name="current_user" value="" />
 
         <form id="mental_test" name="mental_test">
@@ -173,9 +173,14 @@
               </button> -->
               <div>
                 <button type="button" class="sm-button" data-toggle="modal" onclick="send_mental_test(this.form)">
-                  Enviar
+                  Actualizar
                 </button>
+                <button type="button" class="sm-button" data-toggle="modal" onclick="diagnose_test(this.form)">
+                  Resultados
+                </button>
+
               </div>
+
             </div>
             <!-- /CONTROLS -->
           </div>

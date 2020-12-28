@@ -195,7 +195,7 @@ input[type=range]:focus::-ms-fill-upper {
 /* ends range format */
    
     .sm-button {
-      width: 10%;
+      /*width: 10%;*/
       /*background-color:darkslategray;*/
       background-color: black;
       border: none;
