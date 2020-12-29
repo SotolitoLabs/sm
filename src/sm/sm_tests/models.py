@@ -7,6 +7,7 @@ class MentalTest(models.Model):
     owner = models.ForeignKey('auth.User', on_delete=models.DO_NOTHING)
     name  = models.CharField(max_length=255)
     description =  models.TextField(blank=True, null=True)
+    alias =  models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -62,7 +63,7 @@ class MentalTestDiagnosis(models.Model):
     max_value = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name + " :: " + self.user.username + "::" + self.value
+        return self.test.name + " :: " + self.user.username + "::" + str(self.value)
 
 
 class Company(models.Model):
