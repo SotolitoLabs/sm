@@ -207,9 +207,9 @@ function diagnose_test(f) {
   })
   .done(function( data ) {
     alert(data);
-    //window.location.href="/mental_test_diagnosis.html?id=" + mental_test_id;
+    window.location.href="/mental_test_diagnosis.html?id=" + mental_test_id;
   });
 
-  console.log("DIAGNOSE DATA: " + JSON.stringify(diagnose_data));
-  return(diagnose_data);
+  //console.log("DIAGNOSE DATA: " + JSON.stringify(diagnose_data));
+  //return(diagnose_data);
 }
