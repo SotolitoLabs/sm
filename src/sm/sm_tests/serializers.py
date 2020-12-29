@@ -124,7 +124,7 @@ class MentalTestDiagnosisSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MentalTestDiagnosis
-        fields = ['id', 'test', 'user', 'vale', 'max_value']
+        fields = ['id', 'test', 'user', 'current_user', 'value', 'max_value']
         depth = 2
 
     user = serializers.ReadOnlyField(source='user.username')
