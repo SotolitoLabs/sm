@@ -173,7 +173,7 @@ class MentalTestDiagnosisResultsViewSet(viewsets.ModelViewSet):
         # TODO optimize this
         total_results = len(queryset)
         print("DEBUG:: en retrieve RESULTS: " + str(total_results))
-        serializer = MentalTestResultSerializer(queryset, many=True, context={'request': request})
+        serializer = MentalTestDiagnosisSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
@@ -194,17 +194,20 @@ class MentalTestDiagnosisResultsViewSet(viewsets.ModelViewSet):
                 max_diagnose_value += result.test_field.field_type.final_range
                 results_sum += int(result.value)
 
-
+            md = None
             try:
-                md = MentalTestResult.objects.filter(user = self.request.user.id, test = self.request.data['test']).order_by('id')
-                md.value = results_sum
-                md.max_value = max_diagnose_value
+                md = MentalTestDiagnosis.objects.filter(user = self.request.user.id, test = self.request.data['test']).order_by('id')
+                md[0].value = results_sum
+                md[0].max_value = max_diagnose_value
+                md[0].save()
                 return_message = {"success": "Mental Test Diagnosis Succesfully Updated"}
                 return_status = status.HTTP_200_OK
             except:
-                md = MentalTestDiagnosis(test = self.request.data['test'], user = self.request.user.id, value = results_sum, max_value = max_diagnose_value)
+                mt = MentalTest.objects.get(id=self.request.data['test'])
+                md = MentalTestDiagnosis(test = mt, user = self.request.user, value = results_sum, max_value = max_diagnose_value)
                 return_message = {"success": "Mental Test Diagnosis Succesfully Created"}
                 return_status = status.HTTP_201_CREATED
+                md.save()
         #write_serializer = MentalTestDiagnosisCreateSerializer(data=md, many=True, context={'request': request})
         #write_serializer.is_valid(raise_exception=True)
 
