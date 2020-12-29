@@ -20,6 +20,8 @@ router.register(r'mental_test_field', views.MentalTestFieldViewSet)
 router.register(r'mental_test_field_type', views.MentalTestFieldTypeViewSet)
 router.register(r'mental_test_result', views.MentalTestResultViewSet)
 router.register(r'mental_test_results', views.MentalTestResultsViewSet, basename='MentalTestResult')
+router.register(r'mental_test_diagnose', views.MentalTestDiagnosisViewSet, basename='MentalTestDiagnosis')
+router.register(r'mental_test_diagnose_result', views.MentalTestDiagnosisResultsViewSet, basename='MentalTestDiagnosisResults')
 
 urlpatterns = [
     path('api/admin/', admin.site.urls),

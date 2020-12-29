@@ -1,7 +1,12 @@
 #!/bin/bash
 
 ACTION=""
-CONTAINER="django-rest"
+DJANGO_CONTAINER=$(podman ps --format '{{.Names}}' --filter "name=django-rest")
+
+if [[ ("${DJANGO_CONTAINER}" == "") && ("${2}" == "") ]]; then
+    echo "Django container not running please start the application"
+    exit
+fi
 
 if [[ "${1}" == "" ]]; then
     echo "Missing action form manage.py aborting..."
@@ -11,10 +16,10 @@ else
 fi
 
 if [[ "${2}" != "" ]]; then
-    CONTAINER=$2
+    DJANGO_CONTAINER=$2
 fi
 
 
 echo "Executing src/sm/manage.py ${ACTION}"
 
-podman exec -ti ${CONTAINER} /code/sm/manage.py ${ACTION}
+podman exec -ti ${DJANGO_CONTAINER} /code/sm/manage.py ${ACTION}

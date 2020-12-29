@@ -1,7 +1,7 @@
 <html>
   <head>
   <title>Adapp :: Tamices</title>
-  <!--  other slider: https://webshifted.com/slydr/ --> 
+  
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <!-- Bootstrap core CSS -->
@@ -22,18 +22,24 @@
 <!--  <script src="/static/rest_framework/js/ajax-form.js"></script> -->
   <script src="/static/rest_framework/js/csrf.js"></script>
   <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/gauge.min.js"></script>
   <!-- <script src="/static/rest_framework/js/prettify-min.js"></script> -->
   <!-- <script src="/static/rest_framework/js/default.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 
   <!-- Adapp Stuff -->
   <script src="/static/js/jquery.rest.js"></script>
+  <script src="/static/js/modules/chart.js"></script>
   <script src="/static/js/adapp/default.js"></script>
   <script src="/static/js/adapp/auth.js"></script>
+  <script src="/static/js/adapp/reports.js"></script>
   <!-- /Adapp Stuff -->
   
   
   <style>
+
+  .diagnosis_gauge {
+  }
 
   </style>
   
@@ -41,56 +47,75 @@
   <script language="javascript">
   <!--
  
- 
+    var chart_data = {};
     // Load questions
     $( document ).ready(function() {
       // Get questions
-      console.log("Loading questions...");
+      console.log("Loading diagnosis...");
 
-      client.mental_test_results.read(mental_test_id).done(function( data ) {
-        if (data.length <= 0) {
-          alert("No hay tamices capturados");
-          return;
-        }
-        if( data[0].test_field === undefined ) {
-          for (i = 0; i < data.length; i++) {
-            add_question(data[i], 0, i + 1);
-          }
-        }
-        else {
-          for (i = 0; i < data.length; i++) {
-            add_question(data[i].test_field, data[i].value, i + 1);
-          }
-        }
-        current_user = data[0].current_user;
-  
-        //Add Questions to DOM
-        $("#test-questions").html(questions);
-        $("#question-1").addClass('active');
-        $("#carousel-indicators").html(indicators);
-        current_question = 1;
-        total_questions = data.length;
-        console.log("questions succesfully loaded" );
-        /*console.log("Setting bubbles");
-        set_bubbles();*/
-      })
+      client.mental_test_diagnose_result.read(mental_test_id)
       .fail(function(jqxhr, text, error) {
-        //TODO: catch errors and show proper message
-        console.log("ERROR: " + jqxhr.responseText);
-        if(jqxhr.status == 401) {
-        alert("ERROR: " + jqxhr.responseText + " Redireccionando");
-          //location.href = "/login.html";
-        }
-        //alert("ERROR: " + jqxhr.responseText);
+        console.log("Mental test diagnosis failed: " + jqxhr.responseText);
+        alert("Mental test diagnosis failed: " + jqxhr.responseText);
+      })
+      .done(function( data ) {
+        console.log("DATA: " + JSON.stringify(data[0]));
+        chart_data = data[0];
+        console.log("DIAGNOSE VALUE: " + chart_data.value);
+        console.log("MAX DIAGNOSE VALUE: " + chart_data.max_value);
+
+        
+        yellow_diagnosed_value = chart_data.diagnosed_value * 100 / chart_data.max_diagnose_value;
+        green_diagnosed_value =  (chart_data.max_diagnose_value - chart_data.diagnosed_value) * 100 / chart_data.max_diagnose_value;
+        red_diagnosed_value = yellow_diagnosed_value - green_diagnosed_value;
+        //doughnut
+        // we need this one
+        // https://medium.com/@ganesh.kalal/build-a-speedometer-gauge-using-gauge-js-fba5d3976023
+        delta = chart_data.max_value / 3;
+        var gauge_opts = {
+		      angle: -0.24, // The span of the gauge arc
+		      lineWidth: 0.2, // The line thickness
+		      radiusScale: 1, // Relative radius
+		      pointer: {
+		        length: 0.64, // // Relative to gauge radius
+		        strokeWidth: 0.044, // The thickness
+		        color: '#000000' // Fill color
+		      },
+		      limitMax: false,     // If false, max value increases automatically if value > maxValue
+		      limitMin: false,     // If true, the min value of the gauge will be fixed
+		      colorStart: '#59CF0A',   // Colors
+		      colorStop: '#8FC0DA',    // just experiment with them
+		      strokeColor: '#DA0B0B',  // to see which ones work best for you
+		      generateGradient: true,
+		      highDpiSupport: true,     // High resolution support
+          //percentColors: [[0.0, "#59CF0A" ], [0.50, "#00FF00"], [1.0, "#8FC0DA"]],
+          //percentColors: [[0.0, "#a9d70b" ], [0.50, "#f9c802"], [1.0, "#ff0000"]],
+          staticZones: [
+            {strokeStyle: "#30B32D", min: 0, max: delta}, // Green
+            {strokeStyle: "#FFDD00", min: delta, max: delta*2}, // Yellow
+            {strokeStyle: "#F03E3E", min: delta*2, max: chart_data.max_value}, // Red from 100 to 130
+          ],
+
+
+          /*staticLabels: {
+            font: "10px sans-serif",
+            labels: [100, 130, 150],
+            color: "#000000",
+            fractionDigits: 0
+          },*/
+        };
+        set_gauge(gauge_opts,chart_data.value,  chart_data.max_value);
+
       });
-   
+
+
       // Get mental tests
       console.log("Loading Mental Test list...");
       client.mental_test.read().done(function( data ) {
         for (i = 0; i < data.length; i++) {
-          add_mental_test(data[i], i);
+          add_mental_test_diagnosis(data[i], i);
         }
-        $("#progress-bar").html(progress_bar_content);
+        $("#progress-bar").html(progress_bar_content_diagnosis); //FIX!!!
         $("#test-name").html(current_test_name);
       });
     });
@@ -104,8 +129,6 @@
   
   </head>
   <body>
-
-
 
 
 
@@ -386,20 +409,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="sm-header">
         <h1 class="sm-header-title"><img class="sm-header-img" src="/static/img/adapp_logo1.png">&nbsp;adapp</h1><a style="color: black" href="/api/api-auth/logout/?next=/mental_test.html?id=1">Salir</a>
     </div>  
@@ -425,66 +434,12 @@
       <!-- /FINISH PROGRESS BAR -->
     
   
-      <!-- START QUESTIONS -->
+      <!-- START CHART -->
       <div class="mt-5 container-fluid">
-          <!-- <h1 class="sm-test-name-title" id="test-name"><a style="color: black" href="/api/api-auth/login/?next=/mental_test.html?id=1">Loading...</a></h1> -->
-        <input type="hidden" id="current_user" name="current_user" value="" />
-
-        <form id="mental_test" name="mental_test">
-          <div id="test-container" class="row carousel slide" data-interval="false" data-ride="carousel">
-
-          <ol id="carousel-indicators" class="carousel-indicators" style="margin-bottom: -2%">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="sm-carousel-indicator active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1" class="sm-carousel-indicator"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2" class="sm-carousel-indicator"></li>
-          </ol>
-
-
-
-            <div id="test-questions" class="carousel-inner">
-                <div class="loading"><img src="/static/img/beta_adapp_buffering-80.gif" /></div>
-            </div>
-
-
-            <a class="carousel-control-prev" href="#test-container" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#test-container" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-
-
-          </div>
-          <div class="row">
-            <!-- CONTROLS --> 
-            <div class="col">
- <!--             <button type="button" id="button_previous" class="sm-button" data-toggle="modal" onClick="show_previous_question()">
-                Anterior
-              </button>
-  
-              <button type="button" id="button_next" class="sm-button" data-toggle="modal" onclick="show_next_question()">
-                Siguiente
-              </button> -->
-              <div>
-                <button type="button" class="sm-button" data-toggle="modal" onclick="send_mental_test(this.form)">
-                  Actualizar
-                </button>
-                <button type="button" class="sm-button" data-toggle="modal" onclick="diagnose_test(this.form)">
-                  Resultados
-                </button>
-
-              </div>
-
-            </div>
-            <!-- /CONTROLS -->
-          </div>
-
-        </form>
-
+        <h1 class="sm-test-name-title" id="test-name"><a style="color: black" href="/api/api-auth/login/?next=/mental_test.html?id=1">Loading...</a></h1>
+        <canvas class="diagnosis_gauge mt-5 w-75 h-50" id="diagnosis_gauge"></canvas>
       </div>
-      <!-- /END QUESTIONS -->
+      <!-- /END CHART -->
   
     </div>
   </body>

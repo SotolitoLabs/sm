@@ -10,11 +10,12 @@ from .permissions import (IsOwnerOrReadOnly, IsHRAdmin,
         IsOwner)
 
 from .models import (MentalTest, MentalTestField, MentalTestFieldType,
-        MentalTestResult)
+        MentalTestResult, MentalTestDiagnosis)
 
 from .serializers import (UserSerializer, MentalTestSerializer,
         MentalTestFieldSerializer, MentalTestFieldTypeSerializer,
-        MentalTestResultSerializer, MentalTestResultCreateSerializer)
+        MentalTestResultSerializer, MentalTestResultCreateSerializer,
+        MentalTestDiagnosisSerializer)
 
 from rest_framework.renderers import (BrowsableAPIRenderer, JSONRenderer, AdminRenderer,
         TemplateHTMLRenderer)
@@ -88,7 +89,6 @@ class MentalTestResultsViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     lookup_field = "test"
     user = ""
-
     def retrieve(self, request, *args, **kwargs):
         queryset = MentalTestResult.objects.filter(user = self.request.user.id, test = kwargs['test']).order_by('id')
         if len(queryset) > 0:
@@ -130,4 +130,99 @@ class MentalTestResultsViewSet(viewsets.ModelViewSet):
                 m.save()
             else:
                 raise Exception("Multiple response values")
+
+
+class MentalTestDiagnosisViewSet(viewsets.ModelViewSet):
+    queryset = MentalTestDiagnosis.objects.all().order_by('-id')
+    serializer_class = MentalTestResultSerializer
+    #permission_classes = [permissions.IsAuthenticated & (IsHRAdmin | IsOwner)]
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_field = "test"
+    user = ""
+
+    def retrieve(self, request, *args, **kwargs):
+        results_sum = 0
+        max_diagnose_value = 0
+        queryset = MentalTestResult.objects.filter(user = self.request.user.id, test = kwargs['test']).order_by('id')
+        # TODO optimize this
+        total_results = len(queryset)
+        if total_results > 0:
+            for result in queryset:
+                max_diagnose_value += result.test_field.field_type.final_range
+                results_sum += int(result.value)
+            res = '{"test_id": %s, "diagnosed_value": %s, "max_diagnose_value": %s}' % (kwargs['test'], results_sum, max_diagnose_value)
+        else:
+            res = '{"Error": No result for test: %s}' % (kwargs['test'])
+        return Response(res)
+
+class MentalTestDiagnosisResultsViewSet(viewsets.ModelViewSet):
+    queryset = MentalTestDiagnosis.objects.all().order_by('-id')
+    serializer_class = MentalTestDiagnosisSerializer
+    #permission_classes = [permissions.IsAuthenticated & (IsHRAdmin | IsOwner)]
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_field = "test"
+    user = ""
+
+    def retrieve(self, request, *args, **kwargs):
+        print("DEBUG:: en retrieve USER: " + str(self.request.user))
+        print("DEBUG:: en retrieve TEST: " + kwargs['test'])
+
+        results_sum = 0
+        max_diagnose_value = 0
+        queryset = MentalTestDiagnosis.objects.filter(user = self.request.user.id, test = kwargs['test']).order_by('id')
+        # TODO optimize this
+        total_results = len(queryset)
+        print("DEBUG:: en retrieve RESULTS: " + str(total_results))
+        serializer = MentalTestDiagnosisSerializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        instance = None
+        return_message = {"failed": "Failed to create Mental Test Result"}
+        return_status = status.HTTP_500_INTERNAL_SERVER_ERROR
+        max_diagnose_value = 0
+        results_sum = 0
+
+        print("DEBUG:: en Create USER: " + str(self.request.user))
+        print("DEBUG:: en retrieve TEST: " + str(self.request.data['test']))
+        queryset = MentalTestResult.objects.filter(user = self.request.user.id, test = self.request.data['test']).order_by('id')
+        print("DEBUG:: en Create queryset: " + str(queryset))
+        # TODO optimize this
+        total_results = len(queryset)
+        if total_results > 0:
+            for result in queryset:
+                max_diagnose_value += result.test_field.field_type.final_range
+                results_sum += int(result.value)
+
+            md = None
+            try:
+                md = MentalTestDiagnosis.objects.filter(user = self.request.user.id, test = self.request.data['test']).order_by('id')
+                md[0].value = results_sum
+                md[0].max_value = max_diagnose_value
+                md[0].save()
+                return_message = {"success": "Mental Test Diagnosis Succesfully Updated"}
+                return_status = status.HTTP_200_OK
+            except:
+                mt = MentalTest.objects.get(id=self.request.data['test'])
+                md = MentalTestDiagnosis(test = mt, user = self.request.user, value = results_sum, max_value = max_diagnose_value)
+                return_message = {"success": "Mental Test Diagnosis Succesfully Created"}
+                return_status = status.HTTP_201_CREATED
+                md.save()
+        #write_serializer = MentalTestDiagnosisCreateSerializer(data=md, many=True, context={'request': request})
+        #write_serializer.is_valid(raise_exception=True)
+
+        #try:
+        #    self.perform_update(write_serializer)
+        #    return_message = {"success": "Mental Test Result Succesfully Updated"}
+        #    return_status = status.HTTP_200_OK
+        #except:
+        #    instance = self.perform_create(write_serializer)
+        #    return_message = {"success": "Mental Test Result Succesfully Created"}
+        #    return_status = status.HTTP_201_CREATED
+
+        return Response(return_message, return_status)
+
+
+
+
 

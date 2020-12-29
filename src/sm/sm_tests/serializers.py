@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from .models import (MentalTest, MentalTestField, MentalTestFieldType,
-                     MentalTestResult)
+                     MentalTestResult, MentalTestDiagnosis)
 from rest_framework import serializers
 from rest_framework.renderers import AdminRenderer, JSONRenderer
 
@@ -107,9 +107,41 @@ class MentalTestResultCreateSerializer(serializers.ModelSerializer):
         model = MentalTestResult
         fields = ['url', 'test', 'user', 'test_field', 'value']
 
-
     def create(self, validated_data):
         print("Creating mental test results: " + str(validated_data))
         MentalTestResult.objects.create(**validated_data)
+ 
+
+class MentalTestDiagnosisSerializer(serializers.ModelSerializer):
+    """
+        Serializer class for Mental Test Results
+    """
+
+    current_user = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+        default=serializers.CurrentUserDefault()
+    )
+
+    class Meta:
+        model = MentalTestDiagnosis
+        fields = ['id', 'test', 'user', 'current_user', 'value', 'max_value']
+        depth = 2
+
+    user = serializers.ReadOnlyField(source='user.username')
+
+
+class MentalTestDiagnosisCreateSerializer(serializers.ModelSerializer):
+    """
+        Serializer class for creatin diagnosis for a user test
+        in one POST request.
+    """
+
+    class Meta:
+        model = MentalTestDiagnosis
+        fields = ['id', 'test', 'user', 'vale', 'max_value']
+
+    def create(self, validated_data):
+        print("Creating mental test diagnosis: " + str(validated_data))
+        MentalTestDiagnosis.objects.create(**validated_data)
  
 

@@ -1,7 +1,8 @@
 <html>
   <head>
+  <meta charset="UTF-8">
   <title>Adapp :: Tamices</title>
-  <!--  other slider: https://webshifted.com/slydr/ --> 
+  
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <!-- Bootstrap core CSS -->
@@ -19,15 +20,12 @@
   
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/popper.min.js"></script>
-<!--  <script src="/static/rest_framework/js/ajax-form.js"></script> -->
-  <script src="/static/rest_framework/js/csrf.js"></script>
   <script src="/static/js/bootstrap.min.js"></script>
-  <!-- <script src="/static/rest_framework/js/prettify-min.js"></script> -->
-  <!-- <script src="/static/rest_framework/js/default.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 
   <!-- Adapp Stuff -->
   <script src="/static/js/jquery.rest.js"></script>
+  <script src="/static/js/modules/chart.js"></script>
   <script src="/static/js/adapp/default.js"></script>
   <script src="/static/js/adapp/auth.js"></script>
   <!-- /Adapp Stuff -->
@@ -41,73 +39,101 @@
   <script language="javascript">
   <!--
  
+    var chart_data = [];
+    var mental_test_labels = []; 
+    var mental_test_chart_data_set = []; 
+
+    function set_chart_data(mtid, test_label, total_tests) {
+      client.mental_test_diagnose_result.read(mtid)
+      .fail(function(jqxhr, text, error) {
+        console.log("Mental test diagnosis failed: " + jqxhr.responseText);
+        alert("Mental test diagnosis failed: " + jqxhr.responseText);
+      })
+      .done(function( data ) {
+        if( !data.includes('Error') ) {
+          d = data[0];
+          console.log("ADDING to chart_data: " + JSON.stringify(d));
+          mental_test_labels.push(test_label);
+          mental_test_chart_data_set.push(d.value);
+          chart_data.push(d);
+          mtcount++;
+          if( mtcount == total_tests) {
+            console.log(mtcount + " == " + total_tests + " Adding chart...");
+            add_radar_chart();
+          }
+        }
+        
+
+      });
+    }
+
  
+    function add_radar_chart() {
+        // Radar Chart
+        console.log("CHART: LABELS: " + mental_test_labels);
+        console.log("CHART: DATA SET: " + mental_test_chart_data_set);
+ 
+        var ctxR = document.getElementById("radarChart").getContext('2d');
+        var myRadarChart = new Chart(ctxR, {
+          type: 'radar',
+          data: {
+            labels: mental_test_labels,
+            
+            datasets: 
+              [
+                {
+                  label: "Resultados de Evaluación",
+                  data: mental_test_chart_data_set,
+                  backgroundColor: [
+                  'rgba(105, 0, 132, .2)',
+                  ],
+                  borderColor: [
+                    'rgba(200, 99, 132, .7)',
+                  ],
+                  borderWidth: 2
+                },
+             ], 
+
+            options: {
+              responsive: true
+            }
+          }
+      });
+    }
+
     // Load questions
     $( document ).ready(function() {
-      // Get questions
-      console.log("Loading questions...");
+      mtcount = 0;
 
-      client.mental_test_results.read(mental_test_id).done(function( data ) {
-        if (data.length <= 0) {
-          alert("No hay tamices capturados");
-          return;
-        }
-        if( data[0].test_field === undefined ) {
-          for (i = 0; i < data.length; i++) {
-            add_question(data[i], 0, i + 1);
-          }
-        }
-        else {
-          for (i = 0; i < data.length; i++) {
-            add_question(data[i].test_field, data[i].value, i + 1);
-          }
-        }
-        current_user = data[0].current_user;
-  
-        //Add Questions to DOM
-        $("#test-questions").html(questions);
-        $("#question-1").addClass('active');
-        $("#carousel-indicators").html(indicators);
-        current_question = 1;
-        total_questions = data.length;
-        console.log("questions succesfully loaded" );
-        /*console.log("Setting bubbles");
-        set_bubbles();*/
-      })
-      .fail(function(jqxhr, text, error) {
-        //TODO: catch errors and show proper message
-        console.log("ERROR: " + jqxhr.responseText);
-        if(jqxhr.status == 401) {
-        alert("ERROR: " + jqxhr.responseText + " Redireccionando");
-          //location.href = "/login.html";
-        }
-        //alert("ERROR: " + jqxhr.responseText);
-      });
-   
+
+
+
+
+
+
+      // Get questions
+      console.log("Loading diagnosis...");
       // Get mental tests
       console.log("Loading Mental Test list...");
       client.mental_test.read().done(function( data ) {
-        for (i = 0; i < data.length; i++) {
-          add_mental_test(data[i], i);
+        for (i = 0; i < data.length - 1; i++) {
+          set_chart_data(i + DEFAULT_MENTAL_TEST_ID, data[i].name, data.length - 1);
         }
-        $("#progress-bar").html(progress_bar_content);
-        $("#test-name").html(current_test_name);
+
+        //Create the radar chart when the last element has been loaded
+        /*var el = document.getElementById("radarChart"); 
+        el.addEventListener("click", add_radar_chart, false); */
       });
     });
-  
-  
+ 
+
+ 
      // -->
     </script>
     <!-- /DATA -->
   
-  
-  
   </head>
   <body>
-
-
-
-
 
   <header>
 
@@ -392,14 +418,6 @@
 
 
 
-
-
-
-
-
-
-
-
     <div class="sm-header">
         <h1 class="sm-header-title"><img class="sm-header-img" src="/static/img/adapp_logo1.png">&nbsp;adapp</h1><a style="color: black" href="/api/api-auth/logout/?next=/mental_test.html?id=1">Salir</a>
     </div>  
@@ -407,84 +425,13 @@
 
     <div class="sm-slidecontainer">
   
-      <!-- START PROGRESS BAR -->
-      <ol id="progress-bar" class="sm-progress">
-        <li class="is-active" data-step="1">
-          Test 1
-        </li>
-        <li data-step="2">
-          Test 2
-        </li>
-        <li data-step="3">
-          Test 3
-        </li>    
-        <li data-step="4" class="progress__last">
-          Test 4
-        </li>
-      </ol>
-      <!-- /FINISH PROGRESS BAR -->
-    
   
-      <!-- START QUESTIONS -->
+      <!-- START CHART -->
       <div class="mt-5 container-fluid">
-          <!-- <h1 class="sm-test-name-title" id="test-name"><a style="color: black" href="/api/api-auth/login/?next=/mental_test.html?id=1">Loading...</a></h1> -->
-        <input type="hidden" id="current_user" name="current_user" value="" />
-
-        <form id="mental_test" name="mental_test">
-          <div id="test-container" class="row carousel slide" data-interval="false" data-ride="carousel">
-
-          <ol id="carousel-indicators" class="carousel-indicators" style="margin-bottom: -2%">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="sm-carousel-indicator active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1" class="sm-carousel-indicator"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2" class="sm-carousel-indicator"></li>
-          </ol>
-
-
-
-            <div id="test-questions" class="carousel-inner">
-                <div class="loading"><img src="/static/img/beta_adapp_buffering-80.gif" /></div>
-            </div>
-
-
-            <a class="carousel-control-prev" href="#test-container" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#test-container" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-
-
-          </div>
-          <div class="row">
-            <!-- CONTROLS --> 
-            <div class="col">
- <!--             <button type="button" id="button_previous" class="sm-button" data-toggle="modal" onClick="show_previous_question()">
-                Anterior
-              </button>
-  
-              <button type="button" id="button_next" class="sm-button" data-toggle="modal" onclick="show_next_question()">
-                Siguiente
-              </button> -->
-              <div>
-                <button type="button" class="sm-button" data-toggle="modal" onclick="send_mental_test(this.form)">
-                  Actualizar
-                </button>
-                <button type="button" class="sm-button" data-toggle="modal" onclick="diagnose_test(this.form)">
-                  Resultados
-                </button>
-
-              </div>
-
-            </div>
-            <!-- /CONTROLS -->
-          </div>
-
-        </form>
-
+        <h1 class="sm-test-name-title" id="test-name">Resultados de Evaluación</h1>
+        <canvas id="radarChart"></canvas>
       </div>
-      <!-- /END QUESTIONS -->
+      <!-- /END CHART -->
   
     </div>
   </body>

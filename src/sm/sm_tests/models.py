@@ -7,6 +7,7 @@ class MentalTest(models.Model):
     owner = models.ForeignKey('auth.User', on_delete=models.DO_NOTHING)
     name  = models.CharField(max_length=255)
     description =  models.TextField(blank=True, null=True)
+    alias =  models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -41,7 +42,7 @@ class MentalTestField(models.Model):
 
 class MentalTestResult(models.Model):
     """
-        Mental Test Resutl class, stores the results
+        Mental Test Result class, stores the results
     """
     test = models.ForeignKey(MentalTest, related_name='test', on_delete=models.DO_NOTHING)
     user = models.ForeignKey('auth.User', related_name='user', on_delete=models.DO_NOTHING)
@@ -51,6 +52,19 @@ class MentalTestResult(models.Model):
 
     def __str__(self):
         return self.test_field.name + " :: " + self.user.username
+
+class MentalTestDiagnosis(models.Model):
+    """
+        Mental Test Diagnosis class, stores the results of the tests
+    """
+    test = models.ForeignKey(MentalTest, related_name='diagnosis_test', on_delete=models.DO_NOTHING)
+    user = models.ForeignKey('auth.User', related_name='diagnosis_user', on_delete=models.DO_NOTHING)
+    value = models.IntegerField(default=0)
+    max_value = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.test.name + " :: " + self.user.username + "::" + str(self.value)
+
 
 class Company(models.Model):
     """
